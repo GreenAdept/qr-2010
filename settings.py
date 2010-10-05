@@ -1,6 +1,8 @@
-# Django settings for Tutorial project.
+# Django settings for QR site project.
 
-DEBUG = True
+import local_settings
+
+DEBUG = local_settings.DEBUG
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -11,10 +13,10 @@ MANAGERS = ADMINS
 
 DATABASE_ENGINE='mysql'           # 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
 DATABASE_NAME='qrsite'             # Or path to database file if using sqlite3.
-DATABASE_USER='root'             # Not used with sqlite3.
-DATABASE_PASSWORD='arT0n3lico'         # Not used with sqlite3.
-DATABASE_HOST=''             # Set to empty string for localhost. Not used with sqlite3.
-DATABASE_PORT='3306'             # Set to empty string for default. Not used with sqlite3.
+DATABASE_USER=local_settings.DATABASE_USER
+DATABASE_PASSWORD=local_settings.DATABASE_PASSWORD
+DATABASE_HOST=local_settings.DATABASE_HOST
+DATABASE_PORT=local_settings.DATABASE_PORT
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -31,7 +33,7 @@ SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
-USE_I18N = True
+USE_I18N = False
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
@@ -48,7 +50,7 @@ MEDIA_URL = ''
 ADMIN_MEDIA_PREFIX = '/media/'
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '22kl_=r)4+28hou5)s#=+aunzz1%02!w%y(heiab^*t^$bizhc'
+SECRET_KEY = local_settings.SECRET_KEY
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -69,7 +71,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'qr/templates'
+    local_settings.LOCAL_ROOT_DIR + 'qr/templates'
 )
 
 INSTALLED_APPS = (
