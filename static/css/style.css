@@ -1,0 +1,142 @@
+
+	body {
+	background: #000000;
+	}
+	
+	#banner
+	{
+		position:relative;
+		top: -10px;
+		left: 10px;
+		font: bold 26px copperplate,serif;
+		color:#CDE2FC;
+	}
+	
+
+	#mainPicture
+	{
+		position:relative;
+		top:-500px;
+		left: 10px;
+		width:570px;
+		height:390px;
+		background-color:#CDE2FC;
+	}
+
+	#mainPicture .picture
+	{
+		position:relative;
+		width:550px;
+		height:369px;
+		top:10px;
+		background-image: url(/static/media/FP.jpg);
+		background-repeat:no-repeat;
+		margin-left:10px;
+	}
+
+	#nav-menu ul
+	{
+		list-style: none;
+		width:125px;
+		height:400px;
+		position:relative;
+		left: 570px;
+		top: 70px;
+		padding: 1cm;
+		margin: 0;
+	} 
+	
+	#nav-menu li
+	{
+		padding: 5px;
+		margin: 0;
+		font: bold 20px copperplate,serif;
+	} 
+	
+	#nav-menu li a
+	{
+		text-decoration:none;
+		color:#CDE2FC;
+	} 
+	
+	#logoWrapper
+	{
+		position:relative;
+		top:-560px;
+		left: 700px;
+		width:60px;
+		height:60px;
+		background-color:#CDE2FC;
+	}
+
+	#logoWrapper .picture
+	{
+		position:relative;
+		width:60px;
+		height:60px;
+		background-image: url(/static/media/Final.jpg);
+		background-repeat:no-repeat;
+	}
+	
+	#PoweredBy
+	{
+		position:relative;
+		top: -600px;
+		left: 600px;
+		font: bold 10px zapfino,serif;
+		color:#CDE2FC;
+	}
+	
+	#upperribbon{
+	background-color:#000033;
+	position: relative;
+	top: -70px;
+	left: -10px;
+	width:220px;
+	height:20px;
+	}	
+	
+	#wrapper{
+		position: relative;
+		background-color:#CDE2FC;
+		width:200px;
+		height:50px;
+		top: -985px;
+		left:600px; 
+		padding-top:75px; 
+	}
+	
+		#ribbonText{
+		position: relative;
+		font: bold 10px copperplate,serif;
+		color:#CDE2FC;
+		top: -1100px;
+		left: 600px;
+	}
+	
+	div.loginwrapper{
+		position: relative;
+		top: -1085px;
+		left: 565px;
+		background-color:#CDE2FC;
+		width: 185px;
+		margin-left:40px;
+		
+	}
+		
+
+	input.textbox{
+		font: bold 10px copperplate,serif;
+		background:url(/static/media/textbox.jpg) 0px -25px;
+		width:185px;
+		height:10px;
+		border:0px;
+		padding-top:10px;
+		padding-left:4px;
+	}	
+
+	input.textbox:hover{
+		background:url(/static/media/textbox.jpg) 0px 0px;
+		border:0px;
+	}
+	

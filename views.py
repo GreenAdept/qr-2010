@@ -1,17 +1,17 @@
 
 from django.http import HttpResponse
 
-import Image
-import thirdparty.PyQRNative as pyqr
-def qr_code(request, data):
-    
-    qr = pyqr.QRCode(2, pyqr.QRErrorCorrectLevel.L)
-    qr.addData(data)
-    qr.make()
-    
-    response = HttpResponse(mimetype='image/png')
-    qr.makeImage().save(response, "PNG")
-    return response
+#import Image
+#import thirdparty.PyQRNative as pyqr
+#def qr_code(request, data):
+#    
+#    qr = pyqr.QRCode(2, pyqr.QRErrorCorrectLevel.L)
+#    qr.addData(data)
+#    qr.make()
+#    
+#    response = HttpResponse(mimetype='image/png')
+#    qr.makeImage().save(response, "PNG")
+#    return response
 
 
 import thirdparty.pymaps as pymaps
@@ -29,4 +29,10 @@ def pymaps_map(request):
     map_obj.maps[0].setpoint([51.270373,-113.98766, 'Dougs house!', 'icon2'])
     
     return HttpResponse(map_obj.showhtml())
+
+from django.shortcuts import render_to_response
+
+def index(request):
+        return render_to_response('home/index.html')
+    
 
