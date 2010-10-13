@@ -13,6 +13,13 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     # Uncomment the next line to enable the admin:
-    (r'^polls/', include('qr.polls.urls')),
     (r'^admin/', include(admin.site.urls)),
+    
+    (r'^polls/', include('qr.polls.urls')),
+    
+    # test page for Python QR code generation
+    (r'^code/(?P<data>.*)$', 'qr.views.qr_code'),
+    
+    # test page for Google maps API
+    (r'^pymap/$', 'qr.views.pymaps_map'),
 )
