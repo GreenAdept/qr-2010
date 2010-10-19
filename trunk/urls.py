@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     # test page for Google maps API
     (r'^pymap/$', 'qr.views.pymaps_map'),
     (r'^$', 'qr.views.index'),
+    (r'^login/$', 'qr.views.sitelogin'),
 )
 
 
