@@ -43,10 +43,13 @@
     </div>
     
     <div class="loginwrapper">
-		<span class="usertext" style="font: 16px copperplate;" >Username:</span><br>
-		<input class="textbox" type="text" size="25"><br>
-		<span class="usertext" style="font: 16px copperplate;">Password:</span><br>
-		<input class="textbox" type="password" size="25">
+    	<form action="/login/" method="post">
+			<span class="usertext" style="font: 16px copperplate;" >Username:</span><br>
+			<input class="textbox" name="username" type="text" size="25"><br>
+			<span class="usertext" style="font: 16px copperplate;">Password:</span><br>
+			<input class="textbox" name="password" type="password" size="25">
+			<input type="submit" value="login" />
+		</form>
 	</div>
     
 	

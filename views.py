@@ -1,5 +1,5 @@
-
 from django.http import HttpResponse
+from django.contrib.auth import authenticate, login
 
 #import Image
 #import thirdparty.PyQRNative as pyqr
@@ -35,4 +35,15 @@ from django.shortcuts import render_to_response
 def index(request):
         return render_to_response('home/index.html')
     
-
+def sitelogin(request):
+    username = request.POST['username']
+    password = request.POST['password']
+    user = authenticate(username=username, password=password)
+    if user is not None:
+        if user.is_active:
+            login(request, user)
+            return render_to_response('home/logged-in.html')
+        #else:
+         #   return render_to_response('Failure')
+    else:
+        return render_to_response('Really bad failure')
