@@ -1,14 +1,27 @@
-{% extends "base.html" %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
 
-	{% block topNavBar %}
+  	<title> QR marks the spot</title>	
+
+</head>
+
+<body>
+	
+	<div id="topNavBar">
+		{% block topNavBar %}
         <div class="topNaviagationLink"><a href="index.html">Home</a></div>
         <div class="topNaviagationLink"><a href="index.html">About</a></div>
         <div class="topNaviagationLink"><a href="index.html">Play</a></div>
 	    <div class="topNaviagationLink"><a href="index.html">Contact</a></div>
-	{% endblock %}
-	    
-	    
-	{% block sideNavBar %}
+	    {% endblock %}
+	</div>
+	
+	
+	<div id="sideNavBar">
+		<div class = "box"></div>
+		{% block sideNavBar %}
 		<div class = "login">
 		 <div class = "text"> Login </div>
 		   <div class="loginwrapper">
@@ -18,16 +31,27 @@
 				<input class="textbox" type="password" size="25">
 			</div>
 		</div>
-	{% endblock %}
+		{% endblock %}
+	</div>
 	
-	{% block content %}
-		<div class="picture"></div>
-    	<div class="innerBox">
-    		inside!S
-      	</div>
-    {% endblock %}
-     
-    {% block footer %}
+    
+	<div id="contentBox">
+		{% block content %}
+
+      	{% endblock %}
+	</div>    
+  
+	<div id="footer">
+	{% block footer %}
 	
 	{% endblock %}
 
+
+	</div>
+
+	<div id="mask"></div>
+    
+	
+
+</body>
+</html>

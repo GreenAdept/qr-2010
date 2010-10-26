@@ -35,6 +35,9 @@ from django.shortcuts import render_to_response
 def index(request):
         return render_to_response('home/index.html')
     
+def er(request):
+        return render_to_response('404.html')
+
 def sitelogin(request):
     username = request.POST['username']
     password = request.POST['password']

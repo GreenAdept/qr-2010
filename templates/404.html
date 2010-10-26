@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+		<h1>Oops! We couldn't find </h1>
+
+		<h2>
+		"<script type="text/javascript">
+			document.write(window.location.pathname);</script>
+		"</h2>
+
+		<p>... perhaps you were looking for something under one of these headings?:</p>
+		<ul>
+		<li><a href="/">About</a></li>
+		<li><a href="/">Contact</a></li>
+		<li><a href="/">Play</a></li>
+		<li><a href="/">Home</a></li>
+		</ul>
+
+<p>If you really need help finding that URL, email 
+<a href="mailto:you@your_domain">Your email address</a>
+</p>
+
+{% endblock %}
+
+
+
