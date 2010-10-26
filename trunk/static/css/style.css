@@ -1,142 +1,166 @@
 
 	body {
-	background: #000000;
+		background: #000000;
 	}
 	
-	#banner
+	#topNavBar
 	{
+		top: 20px;
+		left: 20px;
+  		display: block; 
+  		height: 65px;
+  		position: fixed; 
+  		overflow: hidden; 
+ 		width: 1000px;
+ 		background-image: url(/static/media/topNavBar1.jpg);
+ 		z-index: 2;
+	}
+
+	.topNaviagationLink
+	{
+		z-index: 2;
+	 	background: #FFFFFF;
+	 	opacity: 0.6;
+	 	margin: 30px;
+		text-align:center;
 		position:relative;
-		top: -10px;
-		left: 10px;
-		font: bold 26px copperplate,serif;
-		color:#CDE2FC;
+		margin-top:15px;
+		font-size:16px;
+		margin-left:-10px;
+		width:121px;
+		height: 35px;
+		line-height: 35px;
+		float:left;
+		color:#CEEAEE;
+		font: bold 30px Impact, serif;
+	}
+
+
+	.topNaviagationLink a
+	{
+		text-decoration:none;
+		color:#000000;
+	}
+
+	.topNaviagationLink a:hover
+	{
+		text-align:center;
+		border-bottom:none;
+		color:#0C61C9;
+		display: block;
+		width:121px;
+		height: 35px;
+		line-height: 35px;
+		background-image:url(tab.png);
+
+	}
+
+	#sideNavBar
+	{
+  		display: block; 
+  		left: 770px;
+  		top: 100px;
+  		position: fixed; 
+  		overflow: hidden; 
+ 		width: 250px;
+ 		height: 370px;
+		background-image: url(/static/media/topNavBar1.jpg);
+		background-repeat:repeat;
+	}
+
+	#sideNavBar .box
+	{
+  		display: block; 
+  		left: 10px;
+  		top: 10px;
+  		position: relative; 
+  		overflow: hidden; 
+ 		width: 230px;
+ 		height: 350px;
+	 	background: #FFFFFF;
+	 	opacity: 0.6;
+	 	
 	}
 	
-
-	#mainPicture
+	#sideNavBar	.login
 	{
-		position:relative;
-		top:-500px;
-		left: 10px;
-		width:570px;
-		height:390px;
-		background-color:#CDE2FC;
+		z-index: 3;
+	 	position: relative;
+	 	width: 210px;
+	 	height: 150px;
+	 	top: -330px;
+	 	left: 20px;
+	 	background: #FFFFFF;
 	}
-
-	#mainPicture .picture
+	
+	.text
+	{
+		z-index: 1;
+		position:	relative;
+		top: 10px;
+		left: 10px;
+		font: bold 26px Impact, serif;
+	}
+	
+	.loginwrapper
+	{
+		top: 20px;
+		position: relative;
+		left: 10px;
+		background-color:#FFFFFF;
+		width: 200px;
+		
+	}
+	
+	#contentBox
+	{
+		z-index: 1;
+  		display: block; 
+  		top: 100px;
+  		left: 20px;
+  		position: absolute; 
+  		overflow: hidden; 
+ 		width: 720px;
+ 		height: 1200px;
+ 		background: #FFFFFF;
+	}
+	
+	#contentBox .picture
 	{
 		position:relative;
-		width:550px;
-		height:369px;
+		width:460px;
+		height:310px;
 		top:10px;
+		left:10px;
 		background-image: url(/static/media/FP.jpg);
 		background-repeat:no-repeat;
 		margin-left:10px;
 	}
+	
 
-	#nav-menu ul
+	#footer
 	{
-		list-style: none;
-		width:125px;
-		height:400px;
-		position:relative;
-		left: 570px;
-		top: 70px;
-		padding: 1cm;
-		margin: 0;
-	} 
+  		display: block; 
+  		top:1300px;
+  		left: 10px;
+  		position: relative; 
+  		overflow: hidden; 
+ 		width: 1000px;
+ 		height: 30px;
+		background-image: url(/static/media/topNavBar1.jpg);
+	}
 	
-	#nav-menu li
+	#mask
 	{
-		padding: 5px;
-		margin: 0;
-		font: bold 20px copperplate,serif;
-	} 
-	
-	#nav-menu li a
-	{
-		text-decoration:none;
-		color:#CDE2FC;
-	} 
-	
-	#logoWrapper
-	{
-		position:relative;
-		top:-560px;
-		left: 700px;
-		width:60px;
-		height:60px;
-		background-color:#CDE2FC;
+		z-index: 1;
+  		display: block; 
+  		position: fixed; 
+  		overflow: hidden; 
+  		top: -10px;
+  		left: -10px;
+ 		width: 780px;
+ 		height: 30px;
+		background: #000000;
 	}
 
-	#logoWrapper .picture
-	{
-		position:relative;
-		width:60px;
-		height:60px;
-		background-image: url(/static/media/Final.jpg);
-		background-repeat:no-repeat;
-	}
-	
-	#PoweredBy
-	{
-		position:relative;
-		top: -600px;
-		left: 600px;
-		font: bold 10px zapfino,serif;
-		color:#CDE2FC;
-	}
-	
-	#upperribbon{
-	background-color:#000033;
-	position: relative;
-	top: -70px;
-	left: -10px;
-	width:220px;
-	height:20px;
-	}	
-	
-	#wrapper{
-		position: relative;
-		background-color:#CDE2FC;
-		width:200px;
-		height:50px;
-		top: -985px;
-		left:600px; 
-		padding-top:75px; 
-	}
-	
-		#ribbonText{
-		position: relative;
-		font: bold 10px copperplate,serif;
-		color:#CDE2FC;
-		top: -1100px;
-		left: 600px;
-	}
-	
-	div.loginwrapper{
-		position: relative;
-		top: -1085px;
-		left: 565px;
-		background-color:#CDE2FC;
-		width: 185px;
-		margin-left:40px;
-		
-	}
-		
-
-	input.textbox{
-		font: bold 10px copperplate,serif;
-		background:url(/static/media/textbox.jpg) 0px -25px;
-		width:185px;
-		height:10px;
-		border:0px;
-		padding-top:10px;
-		padding-left:4px;
-	}	
-
-	input.textbox:hover{
-		background:url(/static/media/textbox.jpg) 0px 0px;
-		border:0px;
-	}
 	
