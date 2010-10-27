@@ -10,7 +10,7 @@ from django.template import Context
 
 from datetime import datetime
 
-import thirdparty.simplejson as json
+import thirdparty.simplejson
 
 from qr.games.gmap import Map
 from qr.games.models import Game, Location, PartialGameForm
@@ -26,7 +26,7 @@ def create(request):
     if request.method == 'POST':
         form = PartialGameForm(request.POST)
         if form.is_valid():
-            center_loc = json.loads(request.POST['locations'])[0]
+            center_loc = simplejson.loads(request.POST['locations'])[0]
             
             game = form.save(commit=False)
             game.center_latitude = str(center_loc['lat'])
@@ -59,7 +59,7 @@ def location_pick(request, game_id):
     if request.method == 'POST':
         # save locations, if they were given
         if request.POST['mode'] == 'update_locations':
-            new_locations = json.loads(request.POST['locations'])
+            new_locations = simplejson.loads(request.POST['locations'])
             
             for loc in new_locations:
                 # make sure this location ID exists & is
