@@ -2,6 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+	{% block styleSheet %}
+	{% endblock %}
 
   	<title> QR marks the spot</title>	
 
@@ -11,10 +13,10 @@
 	
 	<div id="topNavBar">
 		{% block topNavBar %}
-        <div class="topNaviagationLink"><a href="index.html">Home</a></div>
-        <div class="topNaviagationLink"><a href="index.html">About</a></div>
-        <div class="topNaviagationLink"><a href="index.html">Play</a></div>
-	    <div class="topNaviagationLink"><a href="index.html">Contact</a></div>
+        <div class="topNaviagationLink"><a href= "/">Home</a></div>
+        <div class="topNaviagationLink"><a href="/">About</a></div>
+        <div class="topNaviagationLink"><a href="/">Play</a></div>
+	    <div class="topNaviagationLink"><a href="/">Contact</a></div>
 	    {% endblock %}
 	</div>
 	
