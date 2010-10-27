@@ -1,0 +1,31 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<!--
+	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+	-->
+  	<title>QR marks the spot</title>	
+
+</head>
+
+<body>
+    <div id="banner">
+		<h1> QR marks the spot </h1>
+	</div> 
+
+   <div id="mainArea">
+      {% if game_list %}
+         <ul>
+         {% for game in game_list %}
+            <li><a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a></li>
+         {% endfor %}
+         </ul>
+      {% else %}
+         <p>No games created yet</p>
+      {% endif %}
+      
+      <p><a href="/game/create/">Create a new game!</a></p>
+   </div>
+   
+</body>
+</html>

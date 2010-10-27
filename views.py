@@ -14,24 +14,7 @@ from django.contrib.auth import authenticate, login
 #    return response
 
 
-import thirdparty.pymaps as pymaps
-def pymaps_map(request):
-    
-    map_obj = pymaps.PyMap()
-    map_obj.maps[0].center = (51.270373,-113.98766)
-    map_obj.maps[0].zoom = "15"
-    
-    icon2 = pymaps.Icon('icon2')               # create an additional icon
-    icon2.image = "http://labs.google.com/ridefinder/images/mm_20_blue.png" # for testing only!
-    icon2.shadow = "http://labs.google.com/ridefinder/images/mm_20_shadow.png" # do not hotlink from your web page!
-    map_obj.addicon(icon2)
-    
-    map_obj.maps[0].setpoint([51.270373,-113.98766, 'Dougs house!', 'icon2'])
-    
-    return HttpResponse(map_obj.showhtml())
-
 from django.shortcuts import render_to_response
-
 def index(request):
         return render_to_response('home/index.html')
     

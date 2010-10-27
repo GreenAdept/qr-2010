@@ -14,12 +14,11 @@ urlpatterns = patterns('',
     # test page for Python QR code generation
     #(r'^code/(?P<data>.*)$', 'qr.views.qr_code'),
     
-    # test page for Google maps API
-    (r'^pymap/$', 'qr.views.pymaps_map'),
     (r'^$', 'qr.views.index'),
     (r'^login/$', 'qr.views.sitelogin'),
     (r'^404/$', 'qr.views.er'),
     (r'^createUser/$', 'qr.views.createUser'),
+    (r'^game/', include('qr.games.urls')),
 
 )
 
