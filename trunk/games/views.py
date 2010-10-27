@@ -10,7 +10,7 @@ from django.template import Context
 
 from datetime import datetime
 
-import thirdparty.simplejson
+from django.utils import simplejson
 
 from qr.games.gmap import Map
 from qr.games.models import Game, Location, PartialGameForm
