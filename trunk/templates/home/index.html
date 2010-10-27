@@ -1,29 +1,25 @@
 {% extends "base.html" %}
-
-	{% block topNavBar %}
-        <div class="topNaviagationLink"><a href="index.html">Home</a></div>
-        <div class="topNaviagationLink"><a href="index.html">About</a></div>
-        <div class="topNaviagationLink"><a href="index.html">Play</a></div>
-	    <div class="topNaviagationLink"><a href="index.html">Contact</a></div>
-	{% endblock %}
 	    
 	    
 	{% block sideNavBar %}
 		<div class = "login">
 		 <div class = "text"> Login </div>
 		   <div class="loginwrapper">
+		   <form action="blah" method="get">
 				<span class="usertext" style="font: 16px copperplate;" >Username:</span><br>
 				<input class="textbox" type="text" size="25"><br>
 				<span class="usertext" style="font: 16px copperplate;">Password:</span><br>
 				<input class="textbox" type="password" size="25">
 			</div>
+		<div class = "button"> <button type="submit" onclick = >Login</button></div>	
+		</form>
+		<div class = "createUser" >Don't have a login? Create a new user <a href="/createUser">here</a>!</div>
 		</div>
 	{% endblock %}
 	
 	{% block content %}
 		<div class="picture"></div>
     	<div class="innerBox">
-    		inside!S
       	</div>
     {% endblock %}
      

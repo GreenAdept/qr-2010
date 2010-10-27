@@ -1,8 +1,13 @@
-{% extends "base.html" %}
+{% extends "home/index.html" %}
+
+{% block styleSheet %}
+<link rel="stylesheet" type="text/css" href="/static/css/404style.css" />
+{% endblock %}
 
 {% block content %}
 
-		<h1>Oops! We couldn't find </h1>
+	<div class = "page404">
+		<h1>Oops!  We couldn't find :</h1>
 
 		<h2>
 		"<script type="text/javascript">
@@ -16,10 +21,8 @@
 		<li><a href="/">Play</a></li>
 		<li><a href="/">Home</a></li>
 		</ul>
+	</div>
 
-<p>If you really need help finding that URL, email 
-<a href="mailto:you@your_domain">Your email address</a>
-</p>
 
 {% endblock %}
 

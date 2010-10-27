@@ -19,8 +19,9 @@
 	.topNaviagationLink
 	{
 		z-index: 2;
+		left: 20px;
 	 	background: #FFFFFF;
-	 	opacity: 0.6;
+	 	opacity: 0.7;
 	 	margin: 30px;
 		text-align:center;
 		position:relative;
@@ -87,7 +88,7 @@
 		z-index: 3;
 	 	position: relative;
 	 	width: 210px;
-	 	height: 150px;
+	 	height: 200px;
 	 	top: -330px;
 	 	left: 20px;
 	 	background: #FFFFFF;
@@ -112,6 +113,27 @@
 		
 	}
 	
+	.button
+	{
+		top: 30px;
+		position: relative;
+		left: 140px;
+		background-color:#FFFFFF;
+		width: 50px;
+		
+	}
+	
+	.createUser
+	{
+		top: 30px;
+		position: relative;
+		left: 10px;
+		background-color:#FFFFFF;
+		font: 14px Impact, serif;
+		width: 200px;
+		
+	}
+	
 	#contentBox
 	{
 		z-index: 1;
@@ -128,8 +150,8 @@
 	#contentBox .picture
 	{
 		position:relative;
-		width:460px;
-		height:310px;
+		width:750px;
+		height:511px;
 		top:10px;
 		left:10px;
 		background-image: url(/static/media/FP.jpg);
@@ -137,6 +159,7 @@
 		margin-left:10px;
 	}
 	
+
 
 	#footer
 	{

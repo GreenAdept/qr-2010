@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     (r'^$', 'qr.views.index'),
     (r'^login/$', 'qr.views.sitelogin'),
     (r'^404/$', 'qr.views.er'),
+    (r'^createUser/$', 'qr.views.createUser'),
+
 )
 
 
