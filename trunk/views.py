@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpRequest
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.template import Context, Template, RequestContext
 import user_management
 
@@ -19,8 +19,12 @@ import user_management
 from django.shortcuts import render_to_response
 def index(request):    
     if request.method == 'POST':
-        login_dict = site_login(request)
-        return render_to_response('home/index.html', login_dict)
+            if request.POST['login_type'] == 'logout':
+                site_logout(request)
+                return render_to_response('home/index.html')
+            else:
+                login_dict = site_login(request)
+                return render_to_response('home/index.html', login_dict)
     else: 
         return render_to_response('home/index.html')
     
@@ -42,3 +46,6 @@ def site_login(request):
            return render_to_response('Failure')
     else:
         return render_to_response('Really bad failure')
+
+def site_logout(request):
+    logout(request)
