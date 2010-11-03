@@ -6,6 +6,7 @@
    			<div class = "login">
    				Welcome, {{ user }}.
    				<form action="/" method="post">
+   					<input class="hidden" type="hidden" name="login_type" value="logout">
    					<input class="submit" type="submit" value="Logout">
    				</form>
    			</div>
@@ -15,6 +16,7 @@
 			 <div class = "text"> Login </div>
 			   <div class="loginwrapper">
 			   <form action="/" method="post">
+			   		<input class="hidden" type="hidden" name="login_type" value="login">
 					<span class="usertext" style="font: 16px ;" >Username:</span><br>
 					<input class="textbox" name="username" type="text" size="25"><br>
 					<span class="usertext" style="font: 16px ;">Password:</span><br>
