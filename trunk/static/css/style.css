@@ -83,13 +83,26 @@
 	 	
 	}
 	
+		#sideNavBar .stats
+	{
+		font: 18px Impact, serif;
+  		display: block; 
+  		left: 20px;
+  		top: -330px;
+  		position: relative; 
+  		overflow: hidden; 
+ 		width: 210px;
+ 		height: 50px;
+	 	background: #FFFFFF;	 	
+	}
+	
 	#sideNavBar	.login
 	{
 		z-index: 3;
 	 	position: relative;
 	 	width: 210px;
 	 	height: 200px;
-	 	top: -330px;
+	 	top: -320px;
 	 	left: 20px;
 	 	background: #FFFFFF;
 	}

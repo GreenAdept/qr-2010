@@ -15,7 +15,7 @@
 		{% block topNavBar %}
         <div class="topNaviagationLink"><a href= "/">Home</a></div>
         <div class="topNaviagationLink"><a href="/">About</a></div>
-        <div class="topNaviagationLink"><a href="/">Play</a></div>
+        <div class="topNaviagationLink"><a href="/game">Play</a></div>
 	    <div class="topNaviagationLink"><a href="/">Contact</a></div>
 	    {% endblock %}
 	</div>
@@ -23,16 +23,13 @@
 	
 	<div id="sideNavBar">
 		<div class = "box"></div>
-		{% block sideNavBar %}
-		<div class = "login">
-		 <div class = "text"> Login </div>
-		   <div class="loginwrapper">
-				<span class="usertext" style="font: 16px copperplate;" >Username:</span><br>
-				<input class="textbox" type="text" size="25"><br>
-				<span class="usertext" style="font: 16px copperplate;">Password:</span><br>
-				<input class="textbox" type="password" size="25">
-			</div>
+		<div class = "stats">
+		Games in Progress:<br>
+		Users Online:<br>
 		</div>
+		
+		{% block sideNavBar %}
+
 		{% endblock %}
 	</div>
 	
@@ -47,8 +44,6 @@
 	{% block footer %}
 	
 	{% endblock %}
-
-
 	</div>
 
 	<div id="mask"></div>
