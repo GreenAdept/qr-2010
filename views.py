@@ -21,8 +21,8 @@ def index(request):
 def er(request):
         return render_to_response('404.html')
     
-def createUser(request):
-        return render_to_response('users/createUser.html')
+def registration(request):
+        return render_to_response('users/registration.html')
 
 def sitelogin(request):
     username = request.POST['username']
