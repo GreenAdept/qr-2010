@@ -1,14 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<!--
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
-	-->
-  	<title>QR marks the spot</title>	
+{% extends "base.html" %}
 
-</head>
-
-<body>
+{% block content %}
     <div id="banner">
 		<h1> QR marks the spot </h1>
 	</div> 
@@ -26,6 +18,4 @@
       
       <p><a href="/game/create/">Create a new game!</a></p>
    </div>
-   
-</body>
-</html>
+{% endblock content %}

@@ -6,7 +6,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-
     (r'^admin/', include(admin.site.urls)),
     
     (r'^polls/', include('qr.polls.urls')),
@@ -15,7 +14,7 @@ urlpatterns = patterns('',
     #(r'^code/(?P<data>.*)$', 'qr.views.qr_code'),
     
     (r'^$', 'qr.views.index'),
-    (r'^login/$', 'qr.views.sitelogin'),
+    (r'^login/$', 'qr.views.site_login'),
     (r'^404/$', 'qr.views.er'),
     (r'^registration/$', 'qr.views.registration'),
     (r'^game/', include('qr.games.urls')),

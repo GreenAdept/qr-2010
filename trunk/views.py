@@ -1,5 +1,7 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 from django.contrib.auth import authenticate, login
+from django.template import Context, Template, RequestContext
+import user_management
 
 #import Image
 #import thirdparty.PyQRNative as pyqr
@@ -15,7 +17,11 @@ from django.contrib.auth import authenticate, login
 
 
 from django.shortcuts import render_to_response
-def index(request):
+def index(request):    
+    if request.method == 'POST':
+        login_dict = site_login(request)
+        return render_to_response('home/index.html', login_dict)
+    else: 
         return render_to_response('home/index.html')
     
 def er(request):
@@ -24,15 +30,15 @@ def er(request):
 def registration(request):
         return render_to_response('users/registration.html')
 
-def sitelogin(request):
+def site_login(request):
     username = request.POST['username']
     password = request.POST['password']
     user = authenticate(username=username, password=password)
     if user is not None:
         if user.is_active:
             login(request, user)
-            return render_to_response('home/logged-in.html')
-        #else:
-         #   return render_to_response('Failure')
+            return {"user" : user}
+        else:
+           return render_to_response('Failure')
     else:
         return render_to_response('Really bad failure')
