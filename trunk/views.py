@@ -33,6 +33,9 @@ def er(request):
     
 def registration(request):
         return render_to_response('users/registration.html')
+    
+def profile(request):
+        return render_to_response('users/profile.html')
 
 def site_login(request):
     username = request.POST['username']
