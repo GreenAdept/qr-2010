@@ -11,17 +11,21 @@
 
 <body>
 	
-	<div id="topNavBar">
+	<div id="main" >
+		<div id="mainBanner">
+		</div>
+	
+		<div id="topNavBar">
 		{% block topNavBar %}
-        <div class="topNaviagationLink"><a href= "/">Home</a></div>
+        <div class="topNaviagationLink"><a href= "/">Contact</a></div>
         <div class="topNaviagationLink"><a href="/">About</a></div>
         <div class="topNaviagationLink"><a href="/game">Play</a></div>
-	    <div class="topNaviagationLink"><a href="/">Contact</a></div>
+	    <div class="topNaviagationLink"><a href="/">Home</a></div>
 	    {% endblock %}
-	</div>
+		</div>
 	
 	
-	<div id="sideNavBar">
+		<div id="sideNavBar">
 		<div class = "box"></div>
 		<div class = "stats">
 		Games in Progress:<br>
@@ -30,23 +34,14 @@
 		
 		{% block sideNavBar %}
 		{% if user.is_authenticated %}
-   			<div class = "login">
-   				Welcome, {{ user }}.
-   				<form action="/" method="post">
-   					<input class="hidden" type="hidden" name="login_type" value="logout">
-   					<input class="submit" type="submit" value="Logout">
-   				</form>
-   			</div>
-		{% else %}
-			
 			<div class = "login">
 			 <div class = "text"> Login </div>
 			   <div class="loginwrapper">
 			   <form action="/" method="post">
 			   		<input class="hidden" type="hidden" name="login_type" value="login">
-					<span class="usertext" style="font: 16px ;" >Username:</span><br>
+					<span class="usertext" style="font: 16px Impact;" >Username:</span><br>
 					<input class="textbox" name="username" type="text" size="25"><br>
-					<span class="usertext" style="font: 16px ;">Password:</span><br>
+					<span class="usertext" style="font: 16px Impact;">Password:</span><br>
 					<input class="textbox" name="password" type="password" size="25">
 					<input class="submit" type ="submit" value="Login">
 				</form>
@@ -56,27 +51,33 @@
 
 			</div>	 		
 
+		{% else %}
+		
+		   	<div class = "login">
+   				Welcome, {{ user }}.<br />
+   				<div class="userImage"></div>
+   				<div class = "checkProfile">Check your profile <a href="/registration">here</a>!</div><br />
+   				<form action="/" method="post">
+   					<input class="hidden" type="hidden" name="login_type" value="logout">
+   					<input class="submit" type="submit" value="Logout">
+   				</form>
+   			</div>
+			
+
 		{% endif %}
 
 		{% endblock %}
-	</div>
+		</div>
 	
     
-	<div id="contentBox">
+		<div id="contentBox">
 		{% block content %}
 
       	{% endblock %}
-	</div>    
+		</div>    
   
-	<div id="footer">
-	{% block footer %}
-	
-	{% endblock %}
+
 	</div>
-
-	<div id="mask"></div>
     
-	
-
 </body>
 </html>
