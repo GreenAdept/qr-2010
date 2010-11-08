@@ -18,6 +18,8 @@ urlpatterns = patterns('',
     (r'^404/$', 'qr.views.er'),
     (r'^registration/$', 'qr.views.registration'),
     (r'^game/', include('qr.games.urls')),
+    (r'^profile/$', 'qr.views.profile'),
+
 
 )
 
