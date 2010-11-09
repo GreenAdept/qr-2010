@@ -34,7 +34,7 @@
 		
 		{% block sideNavBar %}
 		{% if user.is_authenticated %}
-				   	<div class = "login">
+			<div class = "login">
    				Welcome, {{ user }}.<br />
    				<div class="userImage"></div>
    				<div class = "checkProfile">Check your profile <a href="/profile">here</a>!</div><br />
@@ -44,12 +44,7 @@
    				</form>
    			</div>
 		
-		
- 		
-
-		{% else %}
-		
-			<div class = "login">
+					<div class = "login">
 			 <div class = "text"> Login </div>
 			   <div class="loginwrapper">
 			   <form action="/" method="post">
@@ -65,6 +60,19 @@
 			<div class = "createUser">Don't have a login? Create a new user <a href="/registration">here</a>!</div>
 
 			</div>	
+ 		
+
+		{% else %}
+		
+			<div class = "login">
+   				Welcome, {{ user }}.<br />
+   				<div class="userImage"></div>
+   				<div class = "checkProfile">Check your profile <a href="/profile">here</a>!</div><br />
+   				<form action="/" method="post">
+   					<input class="hidden" type="hidden" name="login_type" value="logout">
+   					<input class="submit" type="submit" value="Logout">
+   				</form>
+   			</div>
 			
 
 		{% endif %}
