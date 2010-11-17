@@ -1,10 +1,10 @@
 	#contentBox	.userForm
 	{
-		font: bold Impact, serif;
+		font: 18px Impact, serif;
 		position:relative;
 		background: #FFFFFF;
-		width:460px;
-		height:310px;
+		width:740px;
+		height:350px;
 		top:20px;
-		left:100px;
+		left:50px;
 	}

@@ -1,23 +1,25 @@
 {% extends "home/index.html" %}
 
 {% block styleSheet %}
-<link rel="stylesheet" type="text/css" href="/static/css/registrationstyle.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/CUstyle.css" />
 {% endblock %}
 
 {% block content %}
 
-<div id = "userForm">
+<div class = "userForm">
+
+	<p>Please complete the form below and press submit to create your account!</p>
 
 	<form name="input" action="" method="get">
-	First name: <input type="text" name="FirstName"  /><br />
-	Last name: <input type="text" name="LastName"  /><br />
-	Email: <input type="text" name="Email"  /><br />
-	Username: <input type="text" name="UserName"  /><br />
-	Password: <input type="password" name="Password"  /><br />
-	<input type="submit" value="Submit" />
+		First name: 	<input type="text" name="FirstName"  /><br /><br />
+		Last name: 		<input type="text" name="LastName"  /><br /><br />
+		Email: 			<input type="text" name="Email"  /><br /><br />
+		Username: 		<input type="text" name="UserName"  /><br /><br />
+		Password: 		<input type="password" name="Password"  /><br /><br />
+		Confirm Password: <input type="password" name="Password"  /><br />
+		<input type="submit" value="Submit" />
 	</form> 
 
-	<p>If you click the "Submit" button, the form-data will be sent to a page called "fill this in!".</p>
 
 </div>
 	

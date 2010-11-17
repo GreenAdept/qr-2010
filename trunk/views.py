@@ -37,6 +37,9 @@ def registration(request):
 def profile(request):
         return render_to_response('users/profile.html')
 
+def contact(request):    
+    return render_to_response('home/contact.html', context_instance=RequestContext(request))
+
 def site_login(request):
     username = request.POST['username']
     password = request.POST['password']
