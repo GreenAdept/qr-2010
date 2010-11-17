@@ -6,23 +6,21 @@
 
 {% block content %}
 
-<div class = "userForm">
-
-	<p>Please complete the form below and press submit to create your account!</p>
-
-	<form name="input" action="" method="get">
-		First name: 	<input type="text" name="FirstName"  /><br /><br />
-		Last name: 		<input type="text" name="LastName"  /><br /><br />
-		Email: 			<input type="text" name="Email"  /><br /><br />
-		Username: 		<input type="text" name="UserName"  /><br /><br />
-		Password: 		<input type="password" name="Password"  /><br /><br />
-		Confirm Password: <input type="password" name="Password"  /><br />
-		<input type="submit" value="Submit" />
-	</form> 
-
-
-</div>
+{% if Success %}
+	<p> Thanks, for registering, {{ UserName }}! Click here to continue back to the page you were on.</p>
 	
+{% else %}
+	<div id = "userForm">
+		<form name="registration_input" action="/registration/" method="post">
+			First name: <input type="text" name="FirstName" value="{{ FirstName }}" /><br />
+			Last name: <input type="text" name="LastName"  value="{{ LastName }}"/><br />
+			Email: <input type="text" name="Email" value="{{ Email }}" /><br />
+			Username: <input type="text" name="UserName" value="{{ UserName }}" /><br />
+			Password: <input type="password" name="Password"  /><br />
+			<input type="submit" value="Submit" />
+		</form> 
+	</div>
+{% endif %}
 
 {% endblock %}
 

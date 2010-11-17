@@ -31,9 +31,6 @@ def index(request):
 def er(request):
         return render_to_response('404.html')
     
-def registration(request):
-        return render_to_response('users/registration.html')
-    
 def profile(request):
         return render_to_response('users/profile.html')
 
