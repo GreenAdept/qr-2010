@@ -1,15 +1,13 @@
 # Create your views here.
-
-
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import Context
+from django.template import Context, RequestContext
+from django.contrib.auth.decorators import login_required
 
 from datetime import datetime
-
 from django.utils import simplejson
 
 from qr.games.gmap import Map
@@ -18,10 +16,11 @@ from qr.games.models import Game, Location, PartialGameForm
 def game_list(request):
     games = Game.objects.all()
     
-    context = Context()
+    context = RequestContext(request)
     context['game_list'] = games
     return render_to_response('games/list.html', context)
 
+@login_required(redirect_field_name='home/index.html')
 def create(request):
     if request.method == 'POST':
         form = PartialGameForm(request.POST)
@@ -44,7 +43,7 @@ def create(request):
     gmap.center = (0,0)
     gmap.zoom = '3'
     
-    context = Context()
+    context = RequestContext(request)
     context['form'] = form
     context['gmap_js'] = gmap.to_js()
     return render_to_response('games/create.html', context)
@@ -101,9 +100,10 @@ def location_pick(request, game_id):
     gmap.center = (game.center_latitude, game.center_longitude)
     gmap.zoom = '15'
     
-    context = Context()
+    context = RequestContext(request)
     context['error_msgs'] = error_msgs
     context['gmap_js'] = gmap.to_js()
+    context['created_by_user'] = (request.user == game.created_by)
     return render_to_response('games/location_pick.html', context)
 
 

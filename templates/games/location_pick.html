@@ -21,17 +21,25 @@
 	<div id="gmap" style="width: 500px; height: 400px;">
    </div>
    
-   <div id="mainArea">
-      <font color="red">{{ error_msgs }}</font>
-      <form action="" method="post" name="add_location">
-         <input type="hidden" name="mode" value="add_point" />
-         <input type="submit" value="Add Point" />
-      </form>
-      <form action="" method="post" name="update_locations" onSubmit="get_locations()">
-         <input type="hidden" name="locations" value="" />
-         <input type="hidden" name="mode" value="update_locations" />
-         <input type="submit" value="Save Point Locations" />
-      </form>
-   </div>
+   {% if user.is_authenticated %}
+        <div id="mainArea">
+            {% if created_by_user %}
+              <font color="red">{{ error_msgs }}</font>
+              <form action="" method="post" name="add_location">
+                 <input type="hidden" name="mode" value="add_point" />
+                 <input type="submit" value="Add Point" />
+              </form>
+              <form action="" method="post" name="update_locations" onSubmit="get_locations()">
+                 <input type="hidden" name="locations" value="" />
+                 <input type="hidden" name="mode" value="update_locations" />
+                 <input type="submit" value="Save Point Locations" />
+              </form>
+            {% else %}
+                <form action="" method="post" name="join_game">
+                    <input type="hidden" name="join_game">
+                    <input type="submit" value="Join Game">
+            {% endif %}
+    </div>
+    {% endif %}
 </body>
 {% endblock content %}
