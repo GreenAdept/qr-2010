@@ -178,7 +178,28 @@ class TestView_game_details(TestCase):
         # get the page again, but we should not be able to join
         self.response = self.client.get(self.url)
         self.assertFalse(self.response.context['can_join_game'])
+        
+        # do a POST request to join the game, it shouldn't add another Player
+        form_data = { 'mode' : 'join' }
+        self.response = self.client.post(self.url, form_data)
+        self.assertEqual(self.response.status_code, 200)
+        player = Player.objects.filter(game__exact=self.game,
+                                       user__exact=self.user)
+        self.assertEqual(player.count(), 1)
 
-
+    def test_user_joins_game(self):
+        # POST a request to join the game
+        form_data = { 'mode' : 'join' }
+        self.response = self.client.post(self.url, form_data)
+        self.assertEqual(self.response.status_code, 200)
+        
+        # make sure the Player got created
+        player = Player.objects.filter(game__exact=self.game,
+                                       user__exact=self.user)
+        self.assertEqual(player.count(), 1)
+        
+        # make sure the returned page doesn't allow the
+        # user to join again
+        self.assertFalse(self.response.context['can_join_game'])
 
 
