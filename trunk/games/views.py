@@ -1,17 +1,17 @@
-# Create your views here.
+
+from datetime import datetime
+
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import render_to_response, get_object_or_404
-from django.template import Context, RequestContext
-from django.contrib.auth.decorators import login_required
-
-from datetime import datetime
+from django.template import RequestContext
 from django.utils import simplejson
 
 from qr.games.gmap import Map
-from qr.games.models import Game, Location, PartialGameForm
+from qr.games.models import Game, Location, PartialGameForm, Player
 
 def game_list(request):
     games = Game.objects.all()
@@ -20,8 +20,29 @@ def game_list(request):
     context['game_list'] = games
     return render_to_response('games/list.html', context)
 
-@login_required(redirect_field_name='home/index.html')
-def create(request):
+def game_details(request, game_id):
+    
+    # get the game
+    game = get_object_or_404(Game, pk=game_id)
+    
+    can_join_game = False
+    if request.user.is_authenticated():
+        # the user can join the game if they didn't create it
+        # and they aren't already in the game
+        if request.user != game.created_by:
+            can_join_game = (Player.objects.filter(
+                                game__exact=game,
+                                user__exact=request.user).count()
+                             == 0)
+    
+    context = RequestContext(request)
+    context['game'] = game
+    context['players'] = game.player_set.all()
+    context['can_join_game'] = can_join_game
+    return render_to_response('games/details.html', context)
+
+@login_required
+def create_game(request):
     if request.method == 'POST':
         form = PartialGameForm(request.POST)
         if form.is_valid():
@@ -30,11 +51,11 @@ def create(request):
             game = form.save(commit=False)
             game.center_latitude = str(center_loc['lat'])
             game.center_longitude = str(center_loc['lon'])
-            game.created_by = User.objects.all()[0] # HACK - should be the currently logged in user
+            game.created_by = request.user
             game.created = datetime.now()
             game.save()
             
-            return HttpResponseRedirect(reverse('location_pick', args=(game.id,)))
+            return HttpResponseRedirect(reverse('game_edit', args=(game.id,)))
 
     else:
         form = PartialGameForm()
@@ -48,10 +69,16 @@ def create(request):
     context['gmap_js'] = gmap.to_js()
     return render_to_response('games/create.html', context)
 
-def location_pick(request, game_id):
+@login_required
+def edit_game(request, game_id):
     
     # get the game
     game = get_object_or_404(Game, pk=game_id)
+    
+    # only the game's creator can edit the locations
+    if request.user != game.created_by:
+        return HttpResponseForbidden('Cannot access: not game creator')
+    
     locations = game.location_set.all()
     
     error_msgs = []
@@ -104,6 +131,6 @@ def location_pick(request, game_id):
     context['error_msgs'] = error_msgs
     context['gmap_js'] = gmap.to_js()
     context['created_by_user'] = (request.user == game.created_by)
-    return render_to_response('games/location_pick.html', context)
+    return render_to_response('games/edit.html', context)
 
 

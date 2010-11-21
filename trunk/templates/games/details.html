@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+   {% if game %}
+      <p>Game #{{ game.id }}</p>
+      <p>Type: {{ game.game_type }}</p>
+      <p>Location: {{ game.city }}</p>
+      <p>Created by: {{ game.created_by }}</p>
+      <p>Created: {{ game.created }}</p>
+      
+      <p>Players:
+         {% if players %}
+            <ul>
+               {% for player in players %}
+                  <li>{{ player }}</li>
+               {% endfor %}
+            </ul>
+         {% else %}
+            None!
+         {% endif %}
+      </p>
+   
+      {% if can_join_game %}
+         <form action="" method="post">
+            <input type="hidden" name="mode" value="join" />
+            <input type="submit" value="Join this game!" />
+         </form>
+      {% endif %}
+   {% endif %}
+{% endblock content %}

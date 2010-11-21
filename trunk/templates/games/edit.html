@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block head_js %}
+  	{{ gmap_js|safe }}
+  	
+   <script type="text/javascript">
+  	//<![CDATA[
+  	function get_locations(){
+      document.update_locations.locations.value = JSON.stringify(this.gmap.getPoints());
+      return true;
+   };
+  	//]]>
+  	</script>
+{% endblock %}
+
+{% block body_tag %}
+   <body onload="load_gmap()" onunload="GUnload()">
+{% endblock %}
+
+{% block content %}
+	<div id="gmap" style="width: 500px; height: 400px;">
+   </div>
+   
+   <div id="mainArea">
+      <font color="red">{{ error_msgs }}</font>
+      <form action="" method="post" name="add_location">
+         <input type="hidden" name="mode" value="add_point" />
+         <input type="submit" value="Add Point" />
+      </form>
+      <form action="" method="post" name="update_locations" onSubmit="get_locations()">
+         <input type="hidden" name="locations" value="" />
+         <input type="hidden" name="mode" value="update_locations" />
+         <input type="submit" value="Save Point Locations" />
+      </form>
+   </div>
+</body>
+{% endblock content %}

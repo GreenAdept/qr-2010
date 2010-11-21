@@ -1,6 +1,4 @@
 
-import datetime
-
 from django.db import models
 from django.contrib.auth.models import User
 from django import forms
@@ -25,7 +23,7 @@ class Game(models.Model):
     created_by = models.ForeignKey(User)
     created = models.DateTimeField()
     template_directory = models.FilePathField(path=GAME_TEMPLATE_DIR, recursive=True, blank=True,)
-    
+
     class Meta:
         db_table = 'game'
         get_latest_by = "created"
@@ -38,7 +36,12 @@ class Location(models.Model):
     created = models.DateTimeField()
     visible = models.DateTimeField()
     expires = models.DateTimeField()
-    gameID = models.ForeignKey('Game')
+    gameID = models.ForeignKey(Game)
+
+class Player(models.Model):
+    game = models.ForeignKey(Game)
+    user = models.ForeignKey(User)
+    visited_locations = models.ManyToManyField(Location)
 
 class PartialGameForm(forms.ModelForm):
 
