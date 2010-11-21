@@ -7,9 +7,13 @@
 
   	<title> QR marks the spot</title>	
 
+   {% block head_js %}
+   {% endblock %}
 </head>
 
+{% block body_tag %}
 <body>
+{% endblock %}
 	
 	<div id="main" >
 		<div id="mainBanner">
@@ -38,8 +42,7 @@
    				Welcome, {{ user }}.<br />
    				<div class="userImage"></div>
    				<div class = "checkProfile">Check your profile <a href="/profile">here</a>!</div><br />
-   				<form action="/" method="post">
-   					<input class="hidden" type="hidden" name="login_type" value="logout">
+   				<form action="/logout/" method="post">
    					<input class="submit" type="submit" value="Logout">
    				</form>
    			</div>
@@ -49,11 +52,12 @@
 
 		{% else %}
 		
-					<div class = "login">
+         <div class = "login">
 			 <div class = "text"> Login </div>
 			   <div class="loginwrapper">
-			   <form action="/" method="post">
-			   		<input class="hidden" type="hidden" name="login_type" value="login">
+			   <form action="/login/" method="post">
+			      <input type="hidden" name="next" value="{{ next }}" />
+			      <input type="hidden" name="path" value="{{ request.path }}" />
 					<span class="usertext" style="font: 16px Impact;" >Username:</span><br>
 					<input class="textbox" name="username" type="text" size="25"><br>
 					<span class="usertext" style="font: 16px Impact;">Password:</span><br>
@@ -64,8 +68,7 @@
 			
 			<div class = "createUser">Don't have a login? Create a new user <a href="/registration">here</a>!</div>
 
-			</div>	
-			
+			</div>
 
 		{% endif %}
 
