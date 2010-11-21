@@ -1,21 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <div id="banner">
-		<h1> QR marks the spot </h1>
-	</div> 
-
-   <div id="mainArea">
-      {% if game_list %}
-         <ul>
-         {% for game in game_list %}
-            <li><a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a></li>
-         {% endfor %}
-         </ul>
-      {% else %}
-         <p>No games created yet</p>
-      {% endif %}
-      
-      <p><a href="/game/create/">Create a new game!</a></p>
-   </div>
+   {% if game_list %}
+      <ul>
+      {% for game in game_list %}
+         <li>
+            <p><a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a></p>
+            {% ifequal user game.created_by %}
+               <p><a href="/game/{{game.id}}/edit/">Edit game</a></p>
+            {% endifequal %}
+         </li>
+      {% endfor %}
+      </ul>
+   {% else %}
+      <p>No games created yet</p>
+   {% endif %}
+   
+   <p><a href="/game/create/">Create a new game!</a></p>
 {% endblock content %}

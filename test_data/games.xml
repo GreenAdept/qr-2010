@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<django-objects version="1.0">
+<object pk="1" model="games.game">
+<field type="CharField" name="game_type">TH</field>
+<field type="BooleanField" name="is_public">1</field>
+<field type="CharField" name="city">UofC</field>
+<field type="DecimalField" name="center_latitude">51.077645</field>
+<field type="DecimalField" name="center_longitude">-114.132843</field>
+<field to="auth.user" name="created_by" rel="ManyToOneRel">1</field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:00</field>
+<field type="FilePathField" name="template_directory"></field>
+</object>
+<object pk="2" model="games.game">
+<field type="CharField" name="game_type">TH</field>
+<field type="BooleanField" name="is_public">1</field>
+<field type="CharField" name="city">Airdrie</field>
+<field type="DecimalField" name="center_latitude">51.269648</field>
+<field type="DecimalField" name="center_longitude">-114.001007</field>
+<field to="auth.user" name="created_by" rel="ManyToOneRel">2</field>
+<field type="DateTimeField" name="created">2010-10-27 12:12:32</field>
+<field type="FilePathField" name="template_directory"></field>
+</object>
+<object pk="3" model="games.game">
+<field type="CharField" name="game_type">TH</field>
+<field type="BooleanField" name="is_public">0</field>
+<field type="CharField" name="city">Crossfield</field>
+<field type="DecimalField" name="center_latitude">51.429317</field>
+<field type="DecimalField" name="center_longitude">-114.035833</field>
+<field to="auth.user" name="created_by" rel="ManyToOneRel">1</field>
+<field type="DateTimeField" name="created">2010-11-06 23:08:29</field>
+<field type="FilePathField" name="template_directory"></field>
+</object>
+<object pk="1" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.080308</field>
+<field type="DecimalField" name="longitude">-114.132628</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:04</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:04</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:04</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="2" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.079398</field>
+<field type="DecimalField" name="longitude">-114.132757</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:07</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:07</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:07</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="3" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.079910</field>
+<field type="DecimalField" name="longitude">-114.132586</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:08</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:08</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:08</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="4" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.080638</field>
+<field type="DecimalField" name="longitude">-114.132339</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:09</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:09</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:09</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="5" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.080153</field>
+<field type="DecimalField" name="longitude">-114.131384</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:09</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:09</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:09</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="6" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.080571</field>
+<field type="DecimalField" name="longitude">-114.131534</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:11:10</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:11:10</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:11:10</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">1</field>
+</object>
+<object pk="7" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.265648</field>
+<field type="DecimalField" name="longitude">-114.001093</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:12:35</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:12:35</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:12:35</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+<object pk="8" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.267823</field>
+<field type="DecimalField" name="longitude">-114.001050</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:12:40</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:12:40</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:12:40</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+<object pk="9" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.270615</field>
+<field type="DecimalField" name="longitude">-113.999591</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:12:44</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:12:44</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:12:44</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+<object pk="10" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.270910</field>
+<field type="DecimalField" name="longitude">-114.003754</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:12:56</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:12:56</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:12:56</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+<object pk="11" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.270830</field>
+<field type="DecimalField" name="longitude">-114.007659</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 12:13:04</field>
+<field type="DateTimeField" name="visible">2010-10-27 12:13:04</field>
+<field type="DateTimeField" name="expires">2010-10-27 12:13:04</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+<object pk="12" model="games.location">
+<field type="FileField" name="QR_code"></field>
+<field type="DecimalField" name="latitude">51.270803</field>
+<field type="DecimalField" name="longitude">-114.010792</field>
+<field type="TextField" name="clue"></field>
+<field type="DateTimeField" name="created">2010-10-27 13:35:01</field>
+<field type="DateTimeField" name="visible">2010-10-27 13:35:01</field>
+<field type="DateTimeField" name="expires">2010-10-27 13:35:01</field>
+<field to="games.game" name="gameID" rel="ManyToOneRel">2</field>
+</object>
+</django-objects>
+

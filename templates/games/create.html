@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block content %}
+{% block head_js %}
   	{{ gmap_js|safe }}
   	
    <script type="text/javascript">
@@ -11,13 +11,13 @@
    };
   	//]]>
   	</script>
-</head>
+{% endblock %}
 
-<body onload="load_gmap()" onunload="GUnload()">
-    <div id="banner">
-		<h1> QR marks the spot </h1>
-	</div> 
+{% block body_tag %}
+   <body onload="load_gmap()" onunload="GUnload()">
+{% endblock %}
 
+{% block content %}
    <div id="mainArea">
       <p>Select game center:</p>
       <div id="gmap" style="width: 500px; height: 400px;">
