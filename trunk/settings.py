@@ -1,5 +1,7 @@
 # Django settings for QR site project.
 
+import sys
+
 import local_settings
 
 DEBUG = local_settings.DEBUG
@@ -64,6 +66,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.debug',
     'django.core.context_processors.i18n',
     'django.core.context_processors.media',
+    'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -90,3 +93,13 @@ INSTALLED_APPS = (
     'qr.polls',
     'qr.games'
 )
+
+# login page URL
+LOGIN_URL = '/login/'
+
+# override settings when running unit tests,
+# for speed improvements
+if 'test' in sys.argv:
+    DATABASE_ENGINE = 'sqlite3'
+
+
