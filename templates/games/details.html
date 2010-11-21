@@ -12,14 +12,14 @@
          {% if players %}
             <ul>
                {% for player in players %}
-                  <li>{{ player }}</li>
+                  <li>{{ player.user }}</li>
                {% endfor %}
             </ul>
          {% else %}
             None!
          {% endif %}
       </p>
-   
+      
       {% if can_join_game %}
          <form action="" method="post">
             <input type="hidden" name="mode" value="join" />

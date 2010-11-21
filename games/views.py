@@ -22,22 +22,29 @@ def game_list(request):
 
 def game_details(request, game_id):
     
-    # get the game
+    # get the game & its players
     game = get_object_or_404(Game, pk=game_id)
+    players = game.player_set.all()
+    
+    # the user wants to join the game
+    if request.method == 'POST':
+        if request.POST['mode'] == 'join':
+            # only join if the player isn't already in the game
+            if players.filter(user__exact=request.user).count() == 0:
+                player = Player(game=game, user=request.user)
+                player.save()
     
     can_join_game = False
     if request.user.is_authenticated():
         # the user can join the game if they didn't create it
         # and they aren't already in the game
         if request.user != game.created_by:
-            can_join_game = (Player.objects.filter(
-                                game__exact=game,
-                                user__exact=request.user).count()
-                             == 0)
+            can_join_game = (
+                players.filter(user__exact=request.user).count() == 0)
     
     context = RequestContext(request)
     context['game'] = game
-    context['players'] = game.player_set.all()
+    context['players'] = players
     context['can_join_game'] = can_join_game
     return render_to_response('games/details.html', context)
 
@@ -112,7 +119,7 @@ def edit_game(request, game_id):
                                gameID=game)
             new_loc.save()
             
-            # re-load the locations to grab any added ones
+            # re-load the locations to grab the new point
             locations = game.location_set.all()
     
     # convert Locations into points for the map

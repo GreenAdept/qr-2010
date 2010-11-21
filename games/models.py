@@ -5,14 +5,11 @@ from django import forms
 
 from qr import local_settings
 
-
 GAME_TYPES = (
               ('TH', 'Treasure Hunt'),
               ('QU', 'Questline'),
               )
 GAME_TEMPLATE_DIR = local_settings.LOCAL_ROOT_DIR + 'game_template_dir/'
-
-# Create your models here.
 
 class Game(models.Model):
     game_type = models.CharField(max_length=2, choices=GAME_TYPES)
