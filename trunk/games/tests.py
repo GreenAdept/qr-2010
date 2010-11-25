@@ -4,34 +4,25 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import simplejson
 
-from qr.games.models import *
 from qr import settings
-
-def check_context(testcase, context_items):
-    try:
-        for item in context_items:
-            testcase.response.context[item]
-    except KeyError:
-        testcase.fail('%s not in context' % item)
+from qr.games import test_helpers
+from qr.games.models import *
 
 class TestView_game_list(TestCase):
-    fixtures = ['test_data/users.xml',
-                'test_data/games.xml']
     url = reverse('game_list')
     
     def setUp(self):
+        test_helpers.create_users(self)
+        test_helpers.create_games(self)
+
         self.response = self.client.get(self.url)
-        
-        # make sure we have some games & users in the fixture
-        self.assertTrue(Game.objects.all().count() > 0)
-        self.assertTrue(User.objects.all().count() > 0)
     
     def test_correct_template(self):
         self.assertEqual(self.response.status_code, 200)
         self.assertTemplateUsed(self.response, 'games/list.html')
     
     def test_context(self):
-        check_context(self, ['game_list'])
+        test_helpers.check_context(self, ['game_list'])
     
     def test_no_games_listed(self):
         # delete the games & then get a new list
@@ -78,10 +69,11 @@ class TestView_game_list(TestCase):
 
 
 class TestView_create_game(TestCase):
-    fixtures = ['test_data/users.xml']
     url = reverse('game_create')
     
     def setUp(self):
+        test_helpers.create_users(self)
+
         # most tests will need a response from a logged-in user
         self.user = User.objects.get(pk=1)
         self.assertTrue(
@@ -94,7 +86,7 @@ class TestView_create_game(TestCase):
         self.assertTemplateUsed(self.response, 'games/create.html')
 
     def test_context(self):
-        check_context(self, ['form', 'gmap_js'])
+        test_helpers.check_context(self, ['form', 'gmap_js'])
 
     def test_game_creation(self):
         # shouldn't be any games yet
@@ -131,11 +123,12 @@ class TestView_create_game(TestCase):
         self.assertRedirects(self.response, expUrl)
 
 class TestView_game_details(TestCase):
-    fixtures = ['test_data/users.xml',
-                'test_data/games.xml']
     url = 'game_details'    # actual URL set in setUp()
     
     def setUp(self):
+        test_helpers.create_users(self)
+        test_helpers.create_games(self)
+        
         # most tests will need a response from a logged-in user,
         # who is NOT the creator of the game
         self.game = Game.objects.get(pk=1)
@@ -152,7 +145,7 @@ class TestView_game_details(TestCase):
         self.assertTemplateUsed(self.response, 'games/details.html')
 
     def test_context(self):
-        check_context(self, ['game', 'players', 'can_join_game'])
+        test_helpers.check_context(self, ['game', 'players', 'can_join_game'])
 
     def test_game_creator_cannot_join(self):
         # logout user2 and login the creator of the game
@@ -201,5 +194,4 @@ class TestView_game_details(TestCase):
         # make sure the returned page doesn't allow the
         # user to join again
         self.assertFalse(self.response.context['can_join_game'])
-
 

@@ -1,0 +1,55 @@
+
+from django.contrib.auth.models import User
+from qr.games.models import Game, Location
+
+from datetime import datetime
+
+def check_context(testcase, context_items):
+    try:
+        for item in context_items:
+            testcase.response.context[item]
+    except KeyError:
+        testcase.fail('%s not in context' % item)
+
+def create_users(testcase):
+    user1 = User.objects.create_user('user1','','user1')
+    user1.save()
+    user2 = User.objects.create_user('user2','','user2')
+    user2.save()
+    testcase.assertEqual(User.objects.all().count(), 2)
+
+def create_games(testcase):
+    games = [
+        { 'type':'TH', 'pub':True, 'city':'UofC',
+            'center':[51, -114], 'user':1,
+            'locs':[ [51, -114], [51.07, -114.08], [51.07, -114.07] ] },
+        { 'type':'TH', 'pub':True, 'city':'Calgary',
+            'center':[52, -114], 'user':2,
+            'locs':[ [51.079, -114.13], [51.0789, -114.01] ] },
+    ]
+    
+    for game_info in games:
+        game = Game()
+        game.game_type = game_info['type']
+        game.is_public = game_info['pub']
+        game.city = game_info['city']
+        game.center_latitude = game_info['center'][0]
+        game.center_longitude = game_info['center'][1]
+        game.created_by = User.objects.get(pk=game_info['user'])
+        game.created = datetime.now()
+        game.save()
+        
+        for loc_info in game_info['locs']:
+            loc = Location()
+            loc.latitude = str(loc_info[0])
+            loc.longitude = str(loc_info[1])
+            loc.gameID = game
+            loc.created = datetime.now()
+            loc.visible = datetime.now()
+            loc.expires = datetime.now()
+            loc.save()
+        
+        testcase.assertEqual(game.location_set.count(), len(game_info['locs']))
+    
+    testcase.assertEqual(Game.objects.all().count(), len(games))
+

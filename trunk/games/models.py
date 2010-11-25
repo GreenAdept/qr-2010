@@ -38,12 +38,9 @@ class Location(models.Model):
 class Player(models.Model):
     game = models.ForeignKey(Game)
     user = models.ForeignKey(User)
-    visited_locations = models.ManyToManyField(Location)
 
 class PartialGameForm(forms.ModelForm):
-
     class Meta:
         model = Game
         fields = ('game_type', 'is_public', 'city')
-        
-        
+

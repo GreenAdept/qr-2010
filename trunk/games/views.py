@@ -26,11 +26,14 @@ def game_details(request, game_id):
     game = get_object_or_404(Game, pk=game_id)
     players = game.player_set.all()
     
+    # see if the current user is a player
+    cur_player = players.filter(user__exact=request.user)
+    
     # the user wants to join the game
     if request.method == 'POST':
         if request.POST['mode'] == 'join':
             # only join if the player isn't already in the game
-            if players.filter(user__exact=request.user).count() == 0:
+            if cur_player.count() == 0:
                 player = Player(game=game, user=request.user)
                 player.save()
     
@@ -39,8 +42,7 @@ def game_details(request, game_id):
         # the user can join the game if they didn't create it
         # and they aren't already in the game
         if request.user != game.created_by:
-            can_join_game = (
-                players.filter(user__exact=request.user).count() == 0)
+            can_join_game = (cur_player.count() == 0)
     
     context = RequestContext(request)
     context['game'] = game
