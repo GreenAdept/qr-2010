@@ -53,9 +53,9 @@ def site_login(request):
                 login(request, user)
                 return HttpResponseRedirect(redirect_to)
             else:
-               return render_to_response('Failure')
+               return HttpResponse('Failure')
         else:
-            return render_to_response('Really bad failure')
+            return HttpResponse('Really bad failure')
 
 def site_logout(request):
     logout(request)
