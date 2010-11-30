@@ -1,0 +1,18 @@
+
+<!-- we want to hide these from the page itself,
+     but each point's div is bound to the map's
+     infowindow for that point. Thus we use a hidden
+     container for the point div's.
+-->
+<!-- this isnt working currently, so just show them under the map
+<div id="gmap_points" style="visibility:hidden;">
+-->
+<div id="gmap_points">
+   {% for location in locations %}
+      <div id="gmap_point_{{ location.id }}">
+         ID: {{ location.id }} <br />
+         Clue: <input type="text" name="clue_{{ location.id }}" value="{{ location.clue }}" />
+      </div>
+   {% endfor %}
+</div>
+

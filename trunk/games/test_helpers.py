@@ -1,6 +1,6 @@
 
 from django.contrib.auth.models import User
-from qr.games.models import Game, Location
+from qr.games.models import *
 
 from datetime import datetime
 
@@ -19,17 +19,25 @@ def create_users(testcase):
     testcase.assertEqual(User.objects.all().count(), 2)
 
 def create_games(testcase):
+    # the first two games should not be of any specific type
     games = [
-        { 'type':'TH', 'pub':True, 'city':'UofC',
+        { 'type':'XX', 'pub':True, 'city':'UofC',
             'center':[51, -114], 'user':1,
             'locs':[ [51, -114], [51.07, -114.08], [51.07, -114.07] ] },
-        { 'type':'TH', 'pub':True, 'city':'Calgary',
+        { 'type':'XX', 'pub':False, 'city':'Calgary',
             'center':[52, -114], 'user':2,
+            'locs':[ [51.079, -114.13], [51.0789, -114.01] ] },
+        { 'type':'TH', 'pub':True, 'city':'UofC',
+            'center':[52, -114], 'user':1,
             'locs':[ [51.079, -114.13], [51.0789, -114.01] ] },
     ]
     
     for game_info in games:
-        game = Game()
+        game = None
+        if game_info['type'] == GAME_TYPES[0][0]:
+            game = TreasureHuntGame()
+        else:
+            game = Game()
         game.game_type = game_info['type']
         game.is_public = game_info['pub']
         game.city = game_info['city']

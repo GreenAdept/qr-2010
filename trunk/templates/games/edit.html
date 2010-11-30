@@ -1,12 +1,13 @@
 {% extends "base.html" %}
+{% load game_extras %}
 
 {% block head_js %}
-  	{{ gmap_js|safe }}
+  	{{ gmap.to_js|safe }}
   	
    <script type="text/javascript">
   	//<![CDATA[
   	function get_locations(){
-      document.update_locations.locations.value = JSON.stringify(this.gmap.getPoints());
+      document.getElementById("gmap_locations").value = JSON.stringify(this.gmap.getPoints());
       return true;
    };
   	//]]>
@@ -21,16 +22,24 @@
 	<div id="gmap" style="width: 500px; height: 400px;">
    </div>
    
-   <div id="mainArea">
-      <font color="red">{{ error_msgs }}</font>
+   <div id="location_editing">
+      {% if error_msgs %}
+         <font color="red">{{ error_msgs }}</font>
+      {% endif %}
+      <table><tr><td>
       <form action="" method="post" name="add_location">
          <input type="hidden" name="mode" value="add_point" />
          <input type="submit" value="Add Point" />
       </form>
+      </td><td>
       <form action="" method="post" name="update_locations" onSubmit="get_locations()">
-         <input type="hidden" name="locations" value="" />
+         <input type="hidden" id="gmap_locations" name="locations" value="" />
          <input type="hidden" name="mode" value="update_locations" />
-         <input type="submit" value="Save Point Locations" />
+         <input type="submit" value="Save Location Data" />
+         
+      </td></tr></table>
+         <!-- include the game-specific form data -->
+         {% include_cat "games/edit_" game.game_type ".html" %}
       </form>
    </div>
 </body>

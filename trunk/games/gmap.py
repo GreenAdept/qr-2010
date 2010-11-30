@@ -14,14 +14,23 @@
 _api_key = "ABQIAAAAQQRAsOk3uqvy3Hwwo4CclBTrVPfEE8Ms0qPwyRfPn-DOTlpaLBTvTHRCdf2V6KbzW7PZFYLT8wFD0A"
 
 class Map:
-    def __init__(self, id='gmap', points=[]):
+    def __init__(self, id='gmap', points=[], point_order=[]):
         """ points should be an array of tuples of the form
-            (<id>, <lat>, <lon>, <html>)
+            (<id>, <lat>, <lon>, <html>). If <html> is blank/not given,
+            then the DOM node with id="<map_id>_point_<point_id>" is bound
+            to the point's infowindow (and if there is no DOM node with
+            this id, then the infowindow is just not shown).
+            
+            point_order is a list of point ID's, whose order determines
+            the order that the points are connected to one another.
+            If point_order is empty, then the points are not connected to
+            one another.
         """
         self.id = id
         self.center = (0,0)
         self.zoom = 1
         self.points = points
+        self.point_order = point_order
     
     def to_js(self):
         
@@ -42,15 +51,22 @@ class Map:
                 }
                 
                 
-                function Map(id,points,lat,long,zoom) {
+                function Map(id,points,lat,long,zoom,point_order) {
                     this.id = id;
                     this.points = points;
+                    this.point_order = point_order;
                     this.gmap = new GMap2(document.getElementById(this.id));
                     this.gmap.setCenter(new GLatLng(lat, long), zoom);
                     this.markerlist = markerlist;
                     this.addmarker = addmarker;
                     this.array2points = array2points;
                     this.getPoints = getPoints;
+                    this.updateLines = updateLines;
+                    
+                    if (this.point_order.length > 0) {
+                        this.gpolyline = new GPolyline();
+                        this.gmap.addOverlay(this.gpolyline);
+                    }
                     
                     function markerlist(array) {
                         for (var i in array) {
@@ -70,16 +86,33 @@ class Map:
                         return points;
                     }
                     
+                    function points_dict(points) {
+                        var dict = {};
+                        for (var i in points) {
+                            var id = points[i].id;
+                            dict[id] = points[i];
+                        }
+                        return dict;
+                    }
+                    
                     function addmarker(point) {
                         if (point.html) {
-                            GEvent.addListener(point.gpoint, "click", function() { // change click to mouseover or other mouse action
-                                point.gpoint.openInfoWindowHtml(point.html);
+                            GEvent.addListener(point.gpoint, "click", function() {
+                                // 'this' is the GMarker object
+                                this.openInfoWindowHtml(point.html);
                             });
+                        } else {
+                            point.gpoint.bindInfoWindow(
+                                document.getElementById(
+                                    "gmap_point_" + point.id));
                         }
                         GEvent.addListener(point.gpoint, "dragstart", function(){
-                            // when event gets called, "this" will be the GMap2 object
+                            // 'this' is the GMarker object
                             this.closeInfoWindow();
                         });
+                        if (this.point_order.length > 0) {
+                            GEvent.bind(point.gpoint, "dragend", this, this.updateLines);
+                        }
                         this.gmap.addOverlay(point.gpoint);
                     }
                     
@@ -95,8 +128,22 @@ class Map:
                         return point_data;
                     }
                     
+                    function updateLines() {
+                        if (this.point_order.length > 0) {
+                            for (var i in this.point_order) {
+                                var point_id = this.point_order[i];
+                                var point = this.points_by_id[point_id];
+                                
+                                this.gpolyline.deleteVertex(i);
+                                this.gpolyline.insertVertex(i, point.gpoint.getLatLng());
+                            }
+                        }
+                    }
+                    
                     this.points = array2points(this.points);
+                    this.points_by_id = points_dict(this.points);
                     this.markerlist(this.points);
+                    this.updateLines();
                 }
                 
                 %s
@@ -110,6 +157,7 @@ class Map:
     
     def _mapjs(self):
         js = "%s_points = %s;\n" % (self.id, self.points)
+        js += "%s_order = %s;\n" % (self.id, self.point_order)
         
         js = js.replace("(", "[")
         js = js.replace(")", "]")
@@ -118,8 +166,8 @@ class Map:
 ##        js = js.replace("'icon'", "icon")
         # for icon  in self.icons:
             # js = js.replace("'"+icon.id+"'",icon.id)
-        js +=   """             %s = new Map('%s',%s_points,%s,%s,%s);
-        """ % (self.id,self.id,self.id,self.center[0],self.center[1],self.zoom)
+        js +=   """             %s = new Map('%s',%s_points,%s,%s,%s,%s_order);
+        """ % (self.id,self.id,self.id,self.center[0],self.center[1],self.zoom,self.id)
         js += """ %s.gmap.addControl(new GSmallMapControl());\n""" % self.id
         return js
     

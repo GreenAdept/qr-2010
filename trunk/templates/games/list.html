@@ -5,10 +5,12 @@
       <ul>
       {% for game in game_list %}
          <li>
-            <p><a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a></p>
+            <p>
+            <a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a>
             {% ifequal user game.created_by %}
-               <p><a href="/game/{{game.id}}/edit/">Edit game</a></p>
+                -- <a href="/game/{{game.id}}/edit/">Edit game</a>
             {% endifequal %}
+            </p>
          </li>
       {% endfor %}
       </ul>
