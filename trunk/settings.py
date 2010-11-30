@@ -91,8 +91,8 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.admin',
     'qr.polls',
-    'qr.games'
-    'qr.tests',
+    'qr.games',
+    # 'qr.tests',
     'south'
 )
 
