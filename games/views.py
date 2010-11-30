@@ -11,7 +11,8 @@ from django.template import RequestContext
 from django.utils import simplejson
 
 from qr.games.gmap import Map
-from qr.games.models import Game, Location, PartialGameForm, Player
+from qr.games.models import *
+from qr.games import utils
 
 def game_list(request):
     games = Game.objects.all()
@@ -51,13 +52,22 @@ def game_details(request, game_id):
     return render_to_response('games/details.html', context)
 
 @login_required
-def create_game(request):
+def game_create(request):
     if request.method == 'POST':
         form = PartialGameForm(request.POST)
         if form.is_valid():
             center_loc = simplejson.loads(request.POST['locations'])[0]
             
-            game = form.save(commit=False)
+            data = form.cleaned_data
+            game = None
+            if data['game_type'] == GAME_TYPES[0][0]:
+                game = TreasureHuntGame()
+            else:
+                # this generic case shouldn't normally occur
+                game = Game()
+            
+            game.is_public = data['is_public']
+            game.city = data['city']
             game.center_latitude = str(center_loc['lat'])
             game.center_longitude = str(center_loc['lon'])
             game.created_by = request.user
@@ -79,7 +89,7 @@ def create_game(request):
     return render_to_response('games/create.html', context)
 
 @login_required
-def edit_game(request, game_id):
+def game_edit(request, game_id):
     
     # get the game
     game = get_object_or_404(Game, pk=game_id)
@@ -109,6 +119,11 @@ def edit_game(request, game_id):
                 # set the new lat/lon
                 existing_loc.latitude = str(loc['lat'])
                 existing_loc.longitude = str(loc['lon'])
+                
+                # save any game-specific data (from the edit_XX.html templates)
+                if isinstance(game, TreasureHuntGame):
+                    existing_loc.clue = request.POST['clue_%d' % (existing_loc.id,)]
+                
                 existing_loc.save()
 
         # add a new point
@@ -124,22 +139,22 @@ def edit_game(request, game_id):
             # re-load the locations to grab the new point
             locations = game.location_set.all()
     
-    # convert Locations into points for the map
-    points = []
-    for loc in locations:
-        points.append((str(loc.id),
-                       str(loc.latitude),
-                       str(loc.longitude),
-                       str(loc.clue),))
+    # if this is a game with an ordering to the points,
+    # grab that order for the map to connect the points
+    point_order = []
+    if isinstance(game, TreasureHuntGame):
+        point_order = utils.csv_to_list(game.ordered_locations)
     
-    gmap = Map('gmap', points)
+    points = utils.locations_to_points(locations)
+    gmap = Map('gmap', points, point_order)
     gmap.center = (game.center_latitude, game.center_longitude)
     gmap.zoom = '15'
     
     context = RequestContext(request)
+    context['gmap'] = gmap
     context['error_msgs'] = error_msgs
-    context['gmap_js'] = gmap.to_js()
-    context['created_by_user'] = (request.user == game.created_by)
+    context['game'] = game
+    context['locations'] = locations
     return render_to_response('games/edit.html', context)
 
 
