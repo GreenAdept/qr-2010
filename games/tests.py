@@ -5,16 +5,18 @@ from django.test import TestCase
 from django.utils import simplejson
 from django.db import IntegrityError
 
+from qr.games import utils
+from qr.games.test_helpers import create_games
+from qr.tests.test_helpers import create_users, check_context
 from qr import settings
-from qr.games import test_helpers, utils
 from qr.games.models import *
 
 class TestView_game_list(TestCase):
     url = reverse('game_list')
     
     def setUp(self):
-        test_helpers.create_users(self)
-        test_helpers.create_games(self)
+        create_users(self)
+        create_games(self)
 
         self.response = self.client.get(self.url)
     
@@ -23,7 +25,7 @@ class TestView_game_list(TestCase):
         self.assertTemplateUsed(self.response, 'games/list.html')
     
     def test_context(self):
-        test_helpers.check_context(self, ['game_list'])
+        check_context(self, ['game_list'])
     
     def test_no_games_listed(self):
         # delete the games & then get a new list
@@ -73,7 +75,7 @@ class TestView_game_create(TestCase):
     url = reverse('game_create')
     
     def setUp(self):
-        test_helpers.create_users(self)
+        create_users(self)
 
         # most tests will need a response from a logged-in user
         self.user = User.objects.get(pk=1)
@@ -96,7 +98,7 @@ class TestView_game_create(TestCase):
         self.assertTemplateUsed(self.response, 'games/create.html')
 
     def test_context(self):
-        test_helpers.check_context(self, ['form', 'gmap_js'])
+        check_context(self, ['form', 'gmap_js'])
 
     def test_game_creation(self):
         # shouldn't be any games yet
@@ -135,8 +137,8 @@ class TestView_game_details(TestCase):
     view = 'game_details'
     
     def setUp(self):
-        test_helpers.create_users(self)
-        test_helpers.create_games(self)
+        create_users(self)
+        create_games(self)
         
         # most tests will need a response from a logged-in user,
         # who is NOT the creator of the game
@@ -154,7 +156,7 @@ class TestView_game_details(TestCase):
         self.assertTemplateUsed(self.response, 'games/details.html')
 
     def test_context(self):
-        test_helpers.check_context(self, ['game', 'players', 'can_join_game'])
+        check_context(self, ['game', 'players', 'can_join_game'])
 
     def test_game_creator_cannot_join(self):
         # logout user2 and login the creator of the game
@@ -209,8 +211,8 @@ class TestView_game_edit(TestCase):
     view = 'game_edit'
     
     def setUp(self):
-        test_helpers.create_users(self)
-        test_helpers.create_games(self)
+        create_users(self)
+        create_games(self)
         
         # most tests will need a response from a logged-in user,
         # who is the creator of the game
@@ -228,7 +230,7 @@ class TestView_game_edit(TestCase):
         self.assertTemplateUsed(self.response, 'games/edit.html')
 
     def test_context(self):
-        test_helpers.check_context(
+        check_context(
             self,
             ['error_msgs', 'gmap', 'locations'])
 
@@ -294,8 +296,8 @@ class TestView_game_edit(TestCase):
 class TestGame_TreasureHunt(TestCase):
     
     def setUp(self):
-        test_helpers.create_users(self)
-        test_helpers.create_games(self)
+        create_users(self)
+        create_games(self)
         
         # create a TreasureHunt game
         self.hunt = TreasureHuntGame()
