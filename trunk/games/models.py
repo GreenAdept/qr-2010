@@ -7,6 +7,8 @@ from django import forms
 from polymorphic import PolymorphicModel
 
 from qr import local_settings
+from qr.games import utils
+from qr.thirdparty.uuidfield import UUIDField
 
 GAME_TYPES = (
               ('TH', 'Treasure Hunt'),
@@ -37,6 +39,7 @@ class Location(PolymorphicModel):
     visible = models.DateTimeField(default='2010-01-01')
     expires = models.DateTimeField(default='2010-01-01')
     gameID = models.ForeignKey(Game)
+    uuid = UUIDField(auto=True)
 
 class Player(PolymorphicModel):
     game = models.ForeignKey(Game)
@@ -84,11 +87,7 @@ def location_save(sender, **kwargs):
         loc = kwargs['instance']
         game = loc.gameID
         if isinstance(game, TreasureHuntGame):
-            # the line below splits the CSV field into
-            # a list of integers, ignoring blank CSV entries
-            game_locs = map(int, 
-                            filter(lambda x: len(x) > 0,
-                                   game.ordered_locations.split(',')))
+            game_locs = utils.csv_to_list(game.ordered_locations)
             if loc.id not in game_locs:
                 game.ordered_locations += str(loc.id) + ','
                 game.save()

@@ -5,11 +5,14 @@ from django.utils import simplejson
 
 from django.test.client import Client
 
+from test_helpers import create_users
+
 class TestView_Base(TestCase):
-    fixtures = ['test_data/users.xml']
     url = reverse('game_list')
     
     def setUp(self):
+        create_users(self)
+        
         # Every test needs a client.
         self.client = Client()
 
