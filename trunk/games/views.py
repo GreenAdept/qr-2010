@@ -14,7 +14,7 @@ from qr.games.gmap import Map
 from qr.games.models import *
 from qr.games import utils
 
-from pygooglechart import QRChart
+from thirdparty.pygooglechart import QRChart
 
 def game_list(request):
     games = Game.objects.all()
