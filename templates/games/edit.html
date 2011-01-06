@@ -37,6 +37,8 @@
          <input type="hidden" name="mode" value="update_locations" />
          <input type="submit" value="Save Location Data" />
          
+      </td><td>
+      <div class="QRLink"><a href= "/game/{{game.id}}/qrcodes/">QR Codes</a></div>
       </td></tr></table>
          <!-- include the game-specific form data -->
          {% include_cat "games/edit_" game.game_type ".html" %}

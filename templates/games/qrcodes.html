@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<table>
+	{% for tuple in locationQRurls %}
+		<tr><td>
+		{{ tuple.0.id }}<br>{{ tuple.0.clue }}</td><td>
+		<img id="QRcode" name="QRcode" src= "{{tuple.1}}"></img>
+		</td></tr>
+	{% endfor %}
+	</table>
+
+
+{% endblock content %}

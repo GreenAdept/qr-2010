@@ -292,6 +292,55 @@ class TestView_game_edit(TestCase):
                                    float(old_loc.latitude) * 1.1)
             self.assertAlmostEqual(float(new_loc.longitude),
                                    float(old_loc.longitude) * 0.9)
+            
+
+class TestView_game_QRCodes(TestCase):
+    url = ''    # actual URL set in setUp()
+    view = 'game_qrcodes'
+    
+    def setUp(self):
+        create_users(self)
+        create_games(self)
+        
+        # most tests will need a response from a logged-in user,
+        # who is the creator of the game
+        self.game = Game.objects.get(pk=1)
+        self.user = User.objects.get(pk=1)
+        self.assertEqual(self.user, self.game.created_by)
+        self.url = reverse(self.view, args=(self.game.pk,))
+        self.assertTrue(
+            self.client.login(username=self.user.username,
+                              password=self.user.username))
+        self.response = self.client.get(self.url)
+        
+    def test_correct_template(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'games/qrcodes.html')
+    
+    def test_context(self):
+        check_context(
+            self,
+            ['locationQRurls'])
+        
+    def test_other_user_cannot_view(self):
+        #logout current user and log in non-creator
+        self.client.logout()
+        self.user = User.objects.get(pk=2)
+        #check to ensure non-creator cannot view page
+        self.assertTrue(
+                        self.client.login(username=self.user.username,
+                              password=self.user.username))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 403)
+
+    def test_locations_match_qrurls(self):
+        self.assertEqual(self.game.location_set.count(), len(self.response.context['locationQRurls']))
+        
+    def test_correct_data(self):
+        for pair in self.response.context['locationQRurls']:
+                self.assertNotEqual(pair[1].find(pair[0].uuid.upper()), -1)
+                
+
 
 class TestGame_TreasureHunt(TestCase):
     

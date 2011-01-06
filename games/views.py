@@ -14,6 +14,8 @@ from qr.games.gmap import Map
 from qr.games.models import *
 from qr.games import utils
 
+from pygooglechart import QRChart
+
 def game_list(request):
     games = Game.objects.all()
     
@@ -158,3 +160,31 @@ def game_edit(request, game_id):
     return render_to_response('games/edit.html', context)
 
 
+def game_qrcodes(request, game_id):
+    # get the game
+    game = get_object_or_404(Game, pk=game_id)
+    
+    # only the game's creator can print the clues
+    if request.user != game.created_by:
+        return HttpResponseForbidden('Cannot access: not game creator')
+    
+    # get locations and clues
+    locations = game.location_set.all()
+    
+    locationQRurls = []
+    
+    
+    for loc in locations:
+        #create chart
+        chart = QRChart(200,200)
+        
+        #add data
+        chart.add_data(loc.uuid.upper())
+        
+        #add the url to QRurls
+        locationQRurls.append( (loc, chart.get_url()))
+        
+
+    context = RequestContext(request)
+    context['locationQRurls'] = locationQRurls
+    return render_to_response('games/qrcodes.html', context)
