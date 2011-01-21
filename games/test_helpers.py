@@ -9,13 +9,13 @@ def create_games(testcase):
     games = [
         { 'type':'XX', 'pub':True, 'city':'UofC',
             'center':[51, -114], 'user':1,
-            'locs':[ [51, -114], [51.07, -114.08], [51.07, -114.07] ] },
+            'locs':[ (51, -114), (51.07, -114.08), (51.07, -114.07) ] },
         { 'type':'XX', 'pub':False, 'city':'Calgary',
             'center':[52, -114], 'user':2,
-            'locs':[ [51.079, -114.13], [51.0789, -114.01] ] },
+            'locs':[ (51.079, -114.13), (51.0789, -114.01) ] },
         { 'type':'TH', 'pub':True, 'city':'UofC',
-            'center':[52, -114], 'user':1,
-            'locs':[ [51.079, -114.13], [51.0789, -114.01] ] },
+            'center':(52, -114), 'user':1,
+            'locs':[ (51.079, -114.13), (51.0789, -114.01), (51.33, -114.44) ] },
     ]
     
     for game_info in games:
@@ -46,4 +46,25 @@ def create_games(testcase):
         testcase.assertEqual(game.location_set.count(), len(game_info['locs']))
     
     testcase.assertEqual(Game.objects.all().count(), len(games))
+
+def create_players(testcase):
+    # link users to games
+    players = [
+        { 'game':1, 'user':2 },
+        { 'game':3, 'user':2 }
+    ]
+    
+    for player_info in players:
+        game = Game.objects.get(pk=player_info['game'])
+        player = None
+        if isinstance(game, TreasureHuntGame):
+            player = TreasureHuntPlayer()
+        else:
+            player = Player()
+        
+        player.game = game
+        player.user = User.objects.get(pk=player_info['user'])
+        player.save()
+    
+    testcase.assertEqual(Player.objects.all().count(), len(players))
 

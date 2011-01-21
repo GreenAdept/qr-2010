@@ -20,7 +20,7 @@ class Migration(SchemaMigration):
         try:
             locs = Location.objects.all()
             for loc in locs:
-                loc.uuid = uuid.uuid4().hex
+                loc.uuid = uuid.uuid4().hex.upper()
                 loc.save()
         except OperationalError:
             # this will occur during South's dry run of this migration;

@@ -56,7 +56,7 @@ class UUIDField(Field):
         value = getattr(model_instance, self.attname, None)
         if self.auto and add and not value:
             # Assign a new value for this attribute if required.
-            value = self._create_uuid().hex
+            value = self._create_uuid().hex.upper()
             setattr(model_instance, self.attname, value)
         return value
 

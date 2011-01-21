@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import simplejson
@@ -37,7 +37,16 @@ def game_details(request, game_id):
         if request.POST['mode'] == 'join':
             # only join if the player isn't already in the game
             if cur_player.count() == 0:
-                player = Player(game=game, user=request.user)
+                player = None
+                # need to create the correct player based
+                # on what kind of game
+                if isinstance(game, TreasureHuntGame):
+                    player = TreasureHuntPlayer()
+                else:
+                    player = Player()
+                
+                player.game = game
+                player.user = request.user
                 player.save()
     
     can_join_game = False
@@ -159,7 +168,45 @@ def game_edit(request, game_id):
     context['locations'] = locations
     return render_to_response('games/edit.html', context)
 
+@login_required
+def game_process_code(request, uuid):
+    
+    # get the location associated with the given UUID
+    location = get_object_or_404(Location, uuid=uuid)
+    
+    # make sure the current user is actually a player of
+    # the game that contains the location
+    player = get_object_or_404(Player, game=location.gameID, user=request.user)
+    
+    # depending on the kind of game, process the user
+    # being at the location
+    if isinstance(player, TreasureHuntPlayer):
+        loc_order = utils.csv_to_list(player.game.ordered_locations)
+        
+        # if the player hasn't visited any locations
+        # yet, the next location should be the first one
+        next_loc_id = loc_order[0]
 
+        # otherwise, find the next one
+        if player.highest_visited is not None:
+            next_index = 1 + loc_order.index(player.highest_visited.id)
+            next_loc_id = loc_order[next_index]
+        
+        if location.id == next_loc_id:
+            player.highest_visited = location
+            player.save()
+        else:
+            # the player shouldn't be at this location yet
+            raise Http404('not next location')
+    else:
+        pass    #todo - generic player... ?
+    
+    # if we make it here, we have
+    # successfully processed the location
+    context = RequestContext(request)
+    context['game'] = location.gameID
+    context['location'] = location
+    return render_to_response('games/process_code.html', context)
 def game_qrcodes(request, game_id):
     # get the game
     game = get_object_or_404(Game, pk=game_id)
