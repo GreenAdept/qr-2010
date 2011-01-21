@@ -1,15 +1,17 @@
 
+import uuid
+
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils import simplejson
 from django.db import IntegrityError
 
-from qr.games import utils
-from qr.games.test_helpers import create_games
-from qr.tests.test_helpers import create_users, check_context
 from qr import settings
+from qr.games import utils
 from qr.games.models import *
+from qr.games.test_helpers import create_games, create_players
+from qr.tests.test_helpers import create_users, check_context
 
 class TestView_game_list(TestCase):
     url = reverse('game_list')
@@ -206,6 +208,18 @@ class TestView_game_details(TestCase):
         # user to join again
         self.assertFalse(self.response.context['can_join_game'])
 
+    def test_user_joins_TH_game(self):
+        # POST a request to join a TH game
+        self.game = TreasureHuntGame.objects.all()[0]
+        self.url = reverse(self.view, args=(self.game.pk,))
+        form_data = { 'mode' : 'join' }
+        self.response = self.client.post(self.url, form_data)
+        
+        # make sure the created player is a TH Player
+        thplayer = TreasureHuntPlayer.objects.filter(game__exact=self.game,
+                                                     user__exact=self.user)
+        self.assertEqual(thplayer.count(), 1)
+
 class TestView_game_edit(TestCase):
     url = ''    # actual URL set in setUp()
     view = 'game_edit'
@@ -232,7 +246,19 @@ class TestView_game_edit(TestCase):
     def test_context(self):
         check_context(
             self,
-            ['error_msgs', 'gmap', 'locations'])
+            ['error_msgs', 'gmap', 'locations', 'game'])
+
+    def test_other_user_cannot_edit(self):
+        # logout the creator and login another user
+        self.client.logout()
+        self.user = User.objects.get(pk=2)
+        self.assertTrue(
+            self.client.login(username=self.user.username,
+                              password=self.user.username))
+        self.response = self.client.get(self.url)
+        
+        # other user should not be able to edit the game
+        self.assertEqual(self.response.status_code, 403)
 
     def test_points_correct(self):
         points = utils.locations_to_points(self.game.location_set.all())
@@ -341,6 +367,80 @@ class TestView_game_QRCodes(TestCase):
                 self.assertNotEqual(pair[1].find(pair[0].uuid.upper()), -1)
                 
 
+
+class TestView_game_process_code(TestCase):
+    url = ''    # actual URL set in setUp()
+    view = 'game_process_code'
+    
+    def setUp(self):
+        create_users(self)
+        create_games(self)
+        create_players(self)
+        
+        # most tests will need a response from a logged-in user,
+        # who is a player of the game, who gave a code for a location
+        # from the game
+        self.game = Game.objects.get(pk=1)
+        self.player = self.game.player_set.all()[0]
+        self.user = self.player.user
+        self.location = self.game.location_set.all()[0]
+        self.url = reverse(self.view, args=(self.location.uuid,))
+        self.assertTrue(
+            self.client.login(username=self.user.username,
+                              password=self.user.username))
+        self.response = self.client.get(self.url)
+
+    def test_correct_template(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'games/process_code.html')
+
+    def test_context(self):
+        check_context(self, ['game', 'location'])
+    
+    def test_invalid_uuid(self):
+        invalid_uuid = uuid.uuid4().hex.upper()
+        self.url = reverse(self.view, args=(invalid_uuid,))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 404)
+    
+    def test_player_not_in_game(self):
+        self.location = Game.objects.get(pk=2).location_set.all()[0]
+        self.url = reverse(self.view, args=(self.location.uuid,))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 404)
+    
+    def test_TH_location_updates_player(self):
+        # need a response for a TH game
+        self.client.logout()
+        self.game = TreasureHuntGame.objects.all()[0]
+        self.player = self.game.player_set.all()[0]
+        self.user = self.player.user
+        self.location = self.game.location_set.all()[0]
+        self.url = reverse(self.view, args=(self.location.uuid.upper(),))
+        self.assertTrue(
+            self.client.login(username=self.user.username,
+                              password=self.user.username))
+        
+        # player should not be at any location yet
+        self.assertEqual(None, self.player.highest_visited)
+        
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        
+        # the player should now be at the location (need to refresh player object)
+        self.player = Player.objects.get(pk=self.player.id)
+        self.assertEqual(self.location, self.player.highest_visited)
+        
+        # the player should not be able to skip locations
+        old_location = self.location
+        self.location = self.game.location_set.all()[2]
+        self.url = reverse(self.view, args=(self.location.uuid.upper(),))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 404)
+        self.player = Player.objects.get(pk=self.player.id)
+        self.assertEqual(old_location, self.player.highest_visited)
+        
+        
 
 class TestGame_TreasureHunt(TestCase):
     

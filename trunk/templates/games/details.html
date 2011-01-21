@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load game_extras %}
 
 {% block content %}
    {% if game %}
@@ -8,17 +9,7 @@
       <p>Created by: {{ game.created_by }}</p>
       <p>Created: {{ game.created }}</p>
       
-      <p>Players:
-         {% if players %}
-            <ul>
-               {% for player in players %}
-                  <li>{{ player.user }}</li>
-               {% endfor %}
-            </ul>
-         {% else %}
-            None!
-         {% endif %}
-      </p>
+      {% include_cat "games/details_" game.game_type ".html" %}
       
       {% if can_join_game %}
          <form action="" method="post">
