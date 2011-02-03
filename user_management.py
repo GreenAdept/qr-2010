@@ -4,9 +4,9 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, RequestContext
 
 def qr_create_user(request):
-    username = request.POST['username']
-    email = request.POST['email']
-    password = request.POST['password']
+    username = request.POST['UserName']
+    email = request.POST['Email']
+    password = request.POST['Password']
     User.objects.create_user(username, password)
     
 def registration(request):   
