@@ -36,9 +36,9 @@ def site_login(request):
         if not redirect_to or '//' in redirect_to or ' ' in redirect_to:
             redirect_to = '/'
         
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(username=username, password=password)
+        username = request.POST['UserName']
+        password = request.POST['Password']
+        user = authenticate(UserName=username, Password=password)
         if user is not None:
             if user.is_active:
                 login(request, user)
