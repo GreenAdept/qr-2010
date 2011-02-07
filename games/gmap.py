@@ -8,6 +8,8 @@
 
     Based on Pymaps 0.9
     Copyright (C) 2007  Ashley Camba <stuff4ash@gmail.com> http://xthought.org
+    
+    Modified by Doug Rosvick (c) 2011 <drosvick@gmail.com>
 """
 
 # Google API key
