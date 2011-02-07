@@ -136,8 +136,10 @@ class Map:
                                 var point_id = this.point_order[i];
                                 var point = this.points_by_id[point_id];
                                 
-                                this.gpolyline.deleteVertex(i);
-                                this.gpolyline.insertVertex(i, point.gpoint.getLatLng());
+                                if (point != undefined) {
+                                    this.gpolyline.deleteVertex(i);
+                                    this.gpolyline.insertVertex(i, point.gpoint.getLatLng());
+                                }
                             }
                         }
                     }
