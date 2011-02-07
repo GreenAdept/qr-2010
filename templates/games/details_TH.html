@@ -6,6 +6,12 @@
       <tr><td>{{ player.user }}</td><td>???</td><td>{{ player.highest_visited.id }}</td></tr>
       {% endfor %}
    </table>
+   
+   {% if game_data.complete %}
+      <p>Congratulations! You have completed this hunt!</p>
+   {% else %}
+      <p>Your current clue is: {{ game_data.clue }}</p>
+   {% endif %}
 {% else %}
    No players have joined this game.
 {% endif %}

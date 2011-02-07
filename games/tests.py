@@ -144,7 +144,7 @@ class TestView_game_details(TestCase):
         
         # most tests will need a response from a logged-in user,
         # who is NOT the creator of the game
-        self.game = Game.objects.get(pk=1)
+        self.game = TreasureHuntGame.objects.all()[0]
         self.user = User.objects.get(pk=2)
         self.assertNotEqual(self.user, self.game.created_by)
         self.url = reverse(self.view, args=(self.game.pk,))
@@ -158,7 +158,7 @@ class TestView_game_details(TestCase):
         self.assertTemplateUsed(self.response, 'games/details.html')
 
     def test_context(self):
-        check_context(self, ['game', 'players', 'can_join_game'])
+        check_context(self, ['game', 'players', 'can_join_game', 'game_data'])
 
     def test_game_creator_cannot_join(self):
         # logout user2 and login the creator of the game
@@ -178,7 +178,7 @@ class TestView_game_details(TestCase):
     
     def test_user_cannot_join_game_twice(self):
         # join the game
-        player = Player(game=self.game, user=self.user)
+        player = TreasureHuntPlayer(game=self.game, user=self.user)
         player.save()
         
         # get the page again, but we should not be able to join
@@ -210,15 +210,62 @@ class TestView_game_details(TestCase):
 
     def test_user_joins_TH_game(self):
         # POST a request to join a TH game
-        self.game = TreasureHuntGame.objects.all()[0]
-        self.url = reverse(self.view, args=(self.game.pk,))
         form_data = { 'mode' : 'join' }
         self.response = self.client.post(self.url, form_data)
+        self.assertEqual(self.response.status_code, 200)
         
         # make sure the created player is a TH Player
         thplayer = TreasureHuntPlayer.objects.filter(game__exact=self.game,
                                                      user__exact=self.user)
         self.assertEqual(thplayer.count(), 1)
+    
+    def test_TH_game_reports_current_clue(self):
+        # join the TH game
+        form_data = { 'mode' : 'join' }
+        self.response = self.client.post(self.url, form_data)
+        self.assertEqual(self.response.status_code, 200)
+        
+        # the returned page should contain the first location's clue
+        self.assertEqual(self.response.context['game_data']['clue'],
+                         self.game.location_set.all()[0].clue)
+        
+        # if the user returns to the page later, the game should display
+        # their current clue still
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['clue'],
+                         self.game.location_set.all()[0].clue)
+        
+        # if the user advances to the next location, the
+        # page should show the next clue
+        player = self.game.player_set.all()[0]
+        player.highest_visited = self.game.location_set.all()[0]
+        player.save()
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['clue'],
+                         self.game.location_set.all()[1].clue)
+    
+    def test_TH_game_reports_completion(self):
+        # join the TH game
+        form_data = { 'mode' : 'join' }
+        self.response = self.client.post(self.url, form_data)
+        self.assertEqual(self.response.status_code, 200)
+        
+        # the returned page should state the game is not complete
+        self.assertEqual(self.response.context['game_data']['complete'], False)
+        
+        # move the player to a middle location, game should not be complete
+        player = self.game.player_set.all()[0]
+        player.highest_visited = self.game.location_set.all()[0]
+        
+        # move the player to the last location in the game
+        last_id = utils.csv_to_list(self.game.ordered_locations)[-1]
+        player.highest_visited = self.game.location_set.filter(pk=last_id)[0]
+        player.save()
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['complete'], True)
 
 class TestView_game_edit(TestCase):
     url = ''    # actual URL set in setUp()
@@ -364,9 +411,8 @@ class TestView_game_QRCodes(TestCase):
         
     def test_correct_data(self):
         for pair in self.response.context['locationQRurls']:
-                self.assertNotEqual(pair[1].find(pair[0].uuid.upper()), -1)
-                
-
+            self.assertNotEqual(pair[1].find(pair[0].uuid.upper()), -1)
+    
 
 class TestView_game_process_code(TestCase):
     url = ''    # actual URL set in setUp()
@@ -380,7 +426,7 @@ class TestView_game_process_code(TestCase):
         # most tests will need a response from a logged-in user,
         # who is a player of the game, who gave a code for a location
         # from the game
-        self.game = Game.objects.get(pk=1)
+        self.game = TreasureHuntGame.objects.all()[0]
         self.player = self.game.player_set.all()[0]
         self.user = self.player.user
         self.location = self.game.location_set.all()[0]
@@ -395,7 +441,7 @@ class TestView_game_process_code(TestCase):
         self.assertTemplateUsed(self.response, 'games/process_code.html')
 
     def test_context(self):
-        check_context(self, ['game', 'location'])
+        check_context(self, ['game', 'location', 'game_data'])
     
     def test_invalid_uuid(self):
         invalid_uuid = uuid.uuid4().hex.upper()
@@ -410,16 +456,9 @@ class TestView_game_process_code(TestCase):
         self.assertEqual(self.response.status_code, 404)
     
     def test_TH_location_updates_player(self):
-        # need a response for a TH game
-        self.client.logout()
-        self.game = TreasureHuntGame.objects.all()[0]
-        self.player = self.game.player_set.all()[0]
-        self.user = self.player.user
-        self.location = self.game.location_set.all()[0]
-        self.url = reverse(self.view, args=(self.location.uuid.upper(),))
-        self.assertTrue(
-            self.client.login(username=self.user.username,
-                              password=self.user.username))
+        # reset the player to not having visited any locations
+        self.player.highest_visited = None
+        self.player.save()
         
         # player should not be at any location yet
         self.assertEqual(None, self.player.highest_visited)
@@ -436,11 +475,48 @@ class TestView_game_process_code(TestCase):
         self.location = self.game.location_set.all()[2]
         self.url = reverse(self.view, args=(self.location.uuid.upper(),))
         self.response = self.client.get(self.url)
-        self.assertEqual(self.response.status_code, 404)
+        self.assertEqual(self.response.status_code, 403)
         self.player = Player.objects.get(pk=self.player.id)
         self.assertEqual(old_location, self.player.highest_visited)
         
+    def test_TH_next_clue_given(self):
+        # reset the player to not having visited any locations
+        self.player.highest_visited = None
+        self.player.save()
         
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        
+        # the clue should match the next location
+        next_loc = self.game.location_set.all()[1]
+        self.assertEqual(self.response.context['game_data']['clue'], next_loc.clue)
+    
+    def test_TH_reports_completion(self):
+        loc_order = utils.csv_to_list(self.game.ordered_locations)
+        
+        # when the player visits the first location, 'complete' flag should be false
+        self.player.highest_visited = None
+        self.player.save()
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['complete'], False)
+        
+        # player visits next location - 'complete' still false
+        self.location = self.game.location_set.all()[1]
+        self.url = reverse(self.view, args=(self.location.uuid,))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['complete'], False)
+        
+        # set the player to have visited the next-to-last location
+        self.player.highest_visited = self.game.location_set.filter(pk=loc_order[-2])[0]
+        self.player.save()
+        # visiting the last location should set 'complete' to true
+        last_loc = self.game.location_set.filter(pk=loc_order[-1])[0]
+        self.url = reverse(self.view, args=(last_loc.uuid,))
+        self.response = self.client.get(self.url)
+        self.assertEqual(self.response.status_code, 200)
+        self.assertEqual(self.response.context['game_data']['complete'], True)
 
 class TestGame_TreasureHunt(TestCase):
     
