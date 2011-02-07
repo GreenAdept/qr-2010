@@ -1,0 +1,8 @@
+<p>
+{% if game_data.complete %}
+   Congratulations, you have completed this treasure hunt!
+{% else %}
+   The clue to the next location is:<br/>
+   {{ game_data.clue }}
+{% endif %}
+</p>

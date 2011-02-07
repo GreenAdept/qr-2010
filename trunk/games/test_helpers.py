@@ -16,6 +16,9 @@ def create_games(testcase):
         { 'type':'TH', 'pub':True, 'city':'UofC',
             'center':(52, -114), 'user':1,
             'locs':[ (51.079, -114.13), (51.0789, -114.01), (51.33, -114.44) ] },
+        { 'type':'TH', 'pub':True, 'city':'UofC',
+            'center':(52, -114), 'user':1,
+            'locs':[ (51.079, -114.13), (51.0789, -114.01), (51.33, -114.44) ] },
     ]
     
     for game_info in games:
@@ -23,6 +26,8 @@ def create_games(testcase):
         if game_info['type'] == GAME_TYPES[0][0]:
             game = TreasureHuntGame()
         else:
+            # TODO: we shouldn't be making generic games....
+            #testcase.fail('attempting to create generic game, you probably dont want this')
             game = Game()
         game.game_type = game_info['type']
         game.is_public = game_info['pub']
@@ -42,6 +47,8 @@ def create_games(testcase):
             loc.visible = datetime.now()
             loc.expires = datetime.now()
             loc.save()
+            loc.clue = 'clue for loc %d' % (loc.id,)
+            loc.save()
         
         testcase.assertEqual(game.location_set.count(), len(game_info['locs']))
     
@@ -50,7 +57,6 @@ def create_games(testcase):
 def create_players(testcase):
     # link users to games
     players = [
-        { 'game':1, 'user':2 },
         { 'game':3, 'user':2 }
     ]
     
@@ -60,7 +66,7 @@ def create_players(testcase):
         if isinstance(game, TreasureHuntGame):
             player = TreasureHuntPlayer()
         else:
-            player = Player()
+            testcase.fail('attempting to create generic player, you probably dont want this')
         
         player.game = game
         player.user = User.objects.get(pk=player_info['user'])

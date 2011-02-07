@@ -3,7 +3,7 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.core.exceptions import ObjectDoesNotExist
+from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
 from django.shortcuts import render_to_response, get_object_or_404
@@ -12,7 +12,7 @@ from django.utils import simplejson
 
 from qr.games.gmap import Map
 from qr.games.models import *
-from qr.games import utils
+from qr.games import utils, game_TH
 
 from thirdparty.pygooglechart import QRChart
 
@@ -32,6 +32,9 @@ def game_details(request, game_id):
     # see if the current user is a player
     cur_player = players.filter(user__exact=request.user)
     
+    # any game-specific data needed for the template
+    game_data = {}
+    
     # the user wants to join the game
     if request.method == 'POST':
         if request.POST['mode'] == 'join':
@@ -43,7 +46,8 @@ def game_details(request, game_id):
                 if isinstance(game, TreasureHuntGame):
                     player = TreasureHuntPlayer()
                 else:
-                    player = Player()
+                    # note: this case shouldn't occur in normal use
+                    raise PermissionDenied('unable to create generic player')
                 
                 player.game = game
                 player.user = request.user
@@ -56,10 +60,21 @@ def game_details(request, game_id):
         if request.user != game.created_by:
             can_join_game = (cur_player.count() == 0)
     
+    player = None
+    if cur_player.count() > 0:
+        player = cur_player.all()[0]
+    
+    # add any game-specific details
+    if isinstance(game, TreasureHuntGame):
+        game_data.update(game_TH.details(game, player))
+    else:
+        raise PermissionDenied('invalid game type')
+    
     context = RequestContext(request)
     context['game'] = game
     context['players'] = players
     context['can_join_game'] = can_join_game
+    context['game_data'] = game_data
     return render_to_response('games/details.html', context)
 
 @login_required
@@ -74,8 +89,8 @@ def game_create(request):
             if data['game_type'] == GAME_TYPES[0][0]:
                 game = TreasureHuntGame()
             else:
-                # this generic case shouldn't normally occur
-                game = Game()
+                # note: this case shouldn't occur in normal use
+                raise PermissionDenied('unable to create generic game')
             
             game.is_public = data['is_public']
             game.city = data['city']
@@ -178,35 +193,24 @@ def game_process_code(request, uuid):
     # the game that contains the location
     player = get_object_or_404(Player, game=location.gameID, user=request.user)
     
+    # game-specific data that needs to get passed to the template
+    game_data = {}
+    
     # depending on the kind of game, process the user
     # being at the location
     if isinstance(player, TreasureHuntPlayer):
-        loc_order = utils.csv_to_list(player.game.ordered_locations)
-        
-        # if the player hasn't visited any locations
-        # yet, the next location should be the first one
-        next_loc_id = loc_order[0]
-
-        # otherwise, find the next one
-        if player.highest_visited is not None:
-            next_index = 1 + loc_order.index(player.highest_visited.id)
-            next_loc_id = loc_order[next_index]
-        
-        if location.id == next_loc_id:
-            player.highest_visited = location
-            player.save()
-        else:
-            # the player shouldn't be at this location yet
-            raise Http404('not next location')
+        game_data.update(game_TH.process(player, location))
     else:
-        pass    #todo - generic player... ?
+        raise PermissionDenied('invalid player')
     
     # if we make it here, we have
     # successfully processed the location
     context = RequestContext(request)
+    context['game_data'] = game_data
     context['game'] = location.gameID
     context['location'] = location
     return render_to_response('games/process_code.html', context)
+
 def game_qrcodes(request, game_id):
     # get the game
     game = get_object_or_404(Game, pk=game_id)
@@ -220,18 +224,26 @@ def game_qrcodes(request, game_id):
     
     locationQRurls = []
     
-    
     for loc in locations:
         #create chart
         chart = QRChart(200,200)
+        qr_string = ''
         
-        #add data
-        chart.add_data(loc.uuid.upper())
+        # add game-specific data
+        if isinstance(game, TreasureHuntGame):
+            qr_string += game_TH.qrcode(game, loc)
+        
+        #add the processing URL for this code
+        code_url = reverse('game_process_code',
+                           args=(loc.uuid.upper(),))
+        qr_string += request.build_absolute_uri(code_url)
+        
+        # put the data into the QR code
+        chart.add_data(qr_string)
         
         #add the url to QRurls
         locationQRurls.append( (loc, chart.get_url()))
-        
-
+    
     context = RequestContext(request)
     context['locationQRurls'] = locationQRurls
     return render_to_response('games/qrcodes.html', context)
