@@ -3,10 +3,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.shortcuts import render_to_response
 from django.contrib.auth.decorators import login_required
+from qr.games.models import *
 
 
 def index(request):
-    return render_to_response('home/index.html', RequestContext(request))
+    num_games = Game.objects.count()
+    context = RequestContext(request)
+    context['num_games'] = num_games
+    return render_to_response('home/index.html', context)
     
 def er(request):
     return render_to_response('404.html', RequestContext(request))
