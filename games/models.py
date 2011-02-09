@@ -25,11 +25,11 @@ class Game(PolymorphicModel):
     created_by = models.ForeignKey(User)
     created = models.DateTimeField(default='2010-01-01')
     template_directory = models.FilePathField(path=GAME_TEMPLATE_DIR, recursive=True, blank=True,)
-
+    
     class Meta:
         db_table = 'game'
         get_latest_by = "created"
-
+    
 class Location(PolymorphicModel):
     QR_code = models.FileField(upload_to='qr_codes')
     latitude = models.DecimalField(max_digits=10, decimal_places=6, default=0)
