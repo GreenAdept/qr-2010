@@ -103,5 +103,7 @@ LOGIN_URL = '/login/'
 # for speed improvements
 if 'test' in sys.argv:
     DATABASE_ENGINE = 'sqlite3'
+    
+AUTH_PROFILE_MODULE = 'games.UserProfile'
 
 

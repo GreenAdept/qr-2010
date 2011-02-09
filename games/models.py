@@ -95,3 +95,15 @@ def location_save(sender, **kwargs):
 from django.db.models.signals import post_save
 post_save.connect(location_save, sender=Location)
 
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    firstname = models.CharField(max_length=50, blank=True)
+    lastname = models.CharField(max_length=50, blank=True)
+    photo = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+    thumbnail = models.ImageField(upload_to='profile_thumb', blank=True, null=True,
+          editable=False)
+ 
+ 
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

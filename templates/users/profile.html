@@ -1,6 +1,19 @@
 {% extends "base.html" %}
+	{% block styleSheet %}
+	
+	{% endblock %}
 
 	{% block content %}
 
+		<div class = "profile">
+   				Welcome, {{ user }}.<br />
+   				<div class="userImage"></div>
+   				<div class="userDeets">
+   				First Name : {{user.profile.firstname}}<br />
+   				Last Name : {{user.profile.lastname}}<br />
+   				Email : {{user.email}}<br />
+   				
+   				</div>
+   		</div>
 
      {% endblock %}

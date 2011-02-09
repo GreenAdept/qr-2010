@@ -17,11 +17,11 @@ urlpatterns = patterns('',
     (r'^404/$', 'qr.views.er'),
     (r'^registration/$', 'qr.user_management.registration'),
     (r'^game/', include('qr.games.urls')),
-    (r'^profile/$', 'qr.views.profile'),
     (r'^contact/$', 'qr.views.contact'),
-
     (r'^login/$', 'qr.views.site_login'),
     (r'^logout/$', 'qr.views.site_logout'),
+    url(r'user/(?P<username>[\d\w]+)/profile/$', 'qr.views.user_profile', name='user_profile'),
+
 )
 
 
