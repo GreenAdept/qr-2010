@@ -12,12 +12,15 @@
 {% else %}
 	<div id = "userForm">
 		<form name="registration_input" action="/registration/" method="post">
-			First name: <input type="text" name="FirstName" value="{{ FirstName }}" /><br />
-			Last name: <input type="text" name="LastName"  value="{{ LastName }}"/><br />
-			Email: <input type="text" name="Email" value="{{ Email }}" /><br />
-			Username: <input type="text" name="UserName" value="{{ UserName }}" /><br />
-			Password: <input type="password" name="Password"  /><br />
-			<input type="submit" value="Submit" />
+		<fieldset>
+			<legend>QR Marks the Spot User Registration Form</legend>
+			<p><label for="FirstName">First name: <input type="text" name="FirstName" value="{{ FirstName }}" /></p>
+			<p><label for="LaststName">Last name: <input type="text" name="LastName"  value="{{ LastName }}"/></p>
+			<p><label for="Email">Email: <input type="text" name="Email" value="{{ Email }}" /></p>
+			<p><label for="UserName">Username: <input type="text" name="UserName" value="{{ UserName }}" /></p>
+			<p><label for="Password">Password: <input type="password" name="Password"  /></p>
+			<p class="submit"><input type="submit" value="Submit" /></p>
+			</fieldset>
 		</form> 
 	</div>
 {% endif %}

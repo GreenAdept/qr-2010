@@ -2,15 +2,14 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate, login, logout
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
+
 
 def index(request):
     return render_to_response('home/index.html', RequestContext(request))
     
 def er(request):
     return render_to_response('404.html', RequestContext(request))
-    
-def profile(request):
-    return render_to_response('users/profile.html', RequestContext(request))
 
 def contact(request):    
     return render_to_response('home/contact.html', RequestContext(request))
@@ -51,3 +50,9 @@ def site_login(request):
 def site_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
+
+
+@login_required
+def user_profile(request, username):
+    context = RequestContext(request)
+    return render_to_response('users/profile.html', context)

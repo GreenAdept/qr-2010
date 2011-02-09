@@ -192,30 +192,6 @@
 		width: 200px;
 		
 	}
-	
-	#contentBox
-	{
-		z-index: 1;
-  		display: block; 
-  		top: -360px;
-  		left: 10px;
-  		position: relative; 
-  		overflow: hidden; 
- 		width: 740px;
- 		background: #FFFFFF;
-	}
-	
-	#contentBox .picture
-	{
-		position:relative;
-		width:750px;
-		height:511px;
-		background-image: url(/static/media/index1.jpg);
-		background-repeat:no-repeat;
-		margin-left:10px;
-	}
-	
-
 
 
 
