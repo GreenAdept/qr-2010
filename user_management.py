@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, RequestContext
-
+import datetime
 
 def registration(request):   
     if (request.method == 'POST'):
@@ -12,6 +12,11 @@ def registration(request):
         user.profile.firstname = request.POST['FirstName']
         user.get_profile().firstname = request.POST['FirstName']
         user.get_profile().lastname = request.POST['LastName']
+        if 'Photo' in request.FILES:
+            user.get_profile().photo = request.FILES['Photo']
+        user.get_profile().gender = request.POST['Gender']
+        user.get_profile().birthday = datetime.date(int(request.POST['Year']), int(request.POST['Month']), int(request.POST['Day']))
+        user.get_profile().bio = request.POST['Bio']
         user.get_profile().save()
         context = RequestContext(request)
         context['Success'] = True
@@ -20,6 +25,10 @@ def registration(request):
         context['FirstName'] = request.POST['FirstName']
         context['LastName'] = request.POST['LastName']
         context['Email'] = request.POST['Email']
+        context['Bio']= request.POST['Bio']
+        context['Gender']= request.POST['Gender']
+        context['Birthday']= user.get_profile().bio
+        
 
         return render_to_response('users/registration.html', context)
     else:

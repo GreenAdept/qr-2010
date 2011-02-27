@@ -1,17 +1,21 @@
 {% extends "base.html" %}
 	{% block styleSheet %}
-	
+	<link rel="stylesheet" type="text/css" href="/static/css/UPstyle.css" />
 	{% endblock %}
 
 	{% block content %}
 
 		<div class = "profile">
    				Welcome, {{ user }}.<br />
-   				<div class="userImage"></div>
+   				<div class="userPhoto"><img src="{{user.profile.photo}}" alt="User Photo" /></div>
    				<div class="userDeets">
    				First Name : {{user.profile.firstname}}<br />
    				Last Name : {{user.profile.lastname}}<br />
+   				Birthday : {{user.profile.birthday}}<br />
+   				Gender : {{user.profile.gender}}<br />
    				Email : {{user.email}}<br />
+   				Biography : {{user.profile.bio}}<br />
+   				
    				
    				</div>
    		</div>

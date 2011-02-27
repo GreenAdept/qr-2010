@@ -7,20 +7,140 @@
 {% block content %}
 
 {% if Success %}
-	<p> Thanks, for registering, {{ UserName }}! Click here to continue back to the page you were on.</p>
+<p> Thanks, for registering, {{ UserName }}! Click here to continue back to the page you were on.</p>
 	
 {% else %}
-	<div id = "userForm">
-		<form name="registration_input" action="/registration/" method="post">
-		<fieldset>
-			<legend>QR Marks the Spot User Registration Form</legend>
-			<p><label for="FirstName">First name: <input type="text" name="FirstName" value="{{ FirstName }}" /></p>
-			<p><label for="LaststName">Last name: <input type="text" name="LastName"  value="{{ LastName }}"/></p>
-			<p><label for="Email">Email: <input type="text" name="Email" value="{{ Email }}" /></p>
-			<p><label for="UserName">Username: <input type="text" name="UserName" value="{{ UserName }}" /></p>
-			<p><label for="Password">Password: <input type="password" name="Password"  /></p>
-			<p class="submit"><input type="submit" value="Submit" /></p>
+<div id = "userForm">
+<form name="registration_input" action="/registration/" method="post" enctype="multipart/form-data">
+<fieldset>
+
+<div id="header" class="info">
+	<h2>Membership Registration</h2>
+</div>
+<p>To create your account and get started please fill in all the information below. </p>
+		
+<ul>
+	
+<li id="URF1" class="     ">
+	<label class="desc" id="t1" >Name<span id="req_1" class="req">*</span></label>
+	<span>
+		<input id="FirstName" name="FirstName" type="text" value="{{FirstName}}" tabindex="1"/>
+		<label for="FirstName">Surname</label>
+	</span>
+	<span>
+		<input id="LastName" name="LastName" type="text"  value="{{LastName}}" tabindex="2" />
+		<label for="LastName">Name</label>
+	</span>
+</li>
+<li id="URF2" class="     ">
+	<label class="desc" id="t2" for="Gender">Gender</label>
+	<span>
+		<select id="Gender"name="Gender" >
+		<option selected="selected">Select</option>
+		<option value="Male">Male</option>
+		<option value="Female">Female</option>
+		</select>
+	</span>		
+</li>
+
+<li id="URF3" class="     ">
+	<label class="desc" id="t3" for="bd1">Birthday</label>
+	<span>
+		<select name="Day" >
+		<option selected="selected" >Day</option>
+		<option value="1">1</option>
+		<option value="2">2</option> 
+		<option value="3">3</option> 
+		<option value="4">4</option> 
+		<option value="5">5</option> 
+		<option value="6">6</option> 
+		<option value="7">7</option> 
+		<option value="8">8</option> 
+		<option value="9">9</option> 
+		<option value="10">10</option> 
+		<option value="11">11</option> 
+		<option value="12">12</option> 
+		<option value="13">13</option> 
+		<option value="14">14</option> 
+		<option value="15">15</option> 
+		<option value="16">16</option> 
+		<option value="17">17</option> 
+		<option value="18">18</option> 
+		<option value="19">19</option> 
+		<option value="20">20</option> 
+		<option value="21">21</option> 
+		<option value="22">22</option> 
+		<option value="23">23</option> 
+		<option value="24">24</option> 
+		<option value="25">25</option> 
+		<option value="26">26</option> 
+		<option value="27">27</option> 
+		<option value="28">28</option> 
+		<option value="29">29</option> 
+		<option value="30">30</option> 
+		<option value="31">31</option>
+		</select>
+	</span>
+	<span>
+			<select name="Month" >
+			<option value="">Month</option>
+			<option value="1">01</option>
+			<option value="2">02</option>
+			<option value="3">03</option>
+			<option value="4">04</option>
+			<option value="5">05</option>
+			<option value="6">06</option>
+			<option value="7">07</option>
+			<option value="8">08</option>
+			<option value="9">09</option>
+			<option value="10">10</option>
+			<option value="11">11</option>
+			<option value="12">12</option>
+			</select>
+	</span>
+	<span>
+			<input type="text" name="Year"  value="{{ Year }}" tabindex="3"/>		
+	</span>
+</li>
+<li id="URF4" class="     ">	
+	<label id="t4" class="desc" for="Email" >Email</label>
+	<span>
+		<input id="Email"type="text" name="Email" value="{{ Email }}" tabindex="4"/>
+	</span>
+</li>
+<li id="URF5" class="     ">
+	<label id="t5" class="desc" for="UserName">Select a Username and Password:</label>
+	<span>
+		<input type="text" name="UserName" id="UserName" value="{{ UserName }}" tabindex= "5" />
+		<label for="UserName">Username</label>
+	</span>
+</li>
+<li id="URF6" class="     ">
+	<span>
+		<input type="password" id="Password" name="Password" value="{{ Password }}" tabindex= "6" />
+		<label for="Password">Password</label>
+	</span>
+	<span>
+		<input type="password" id="RePassword" name="RePassword" value="{{ RePassword }}" tabindex= "7" />
+		<label for="RePassword">Re-Type Password</label>
+	</span>
+</li>
+<li id="URF7" class="     ">
+	<label id="t7" for="Photo" class="desc">Profile Photo</label> 
+	<input id="Photo" type="file" name="Photo" tabindex="8">
+	
+</li>
+<li id="URF8" class="     ">	
+	<label class="desc" id="t8" for="Bio">Please enter a short biography to display on your profile page:</label>
+	<div>
+		<textarea id="Bio" name="Bio" ></textarea>
+	</div>	
+</li>
+</ul>
 			</fieldset>
+				<div>
+					<input type="submit" value="Submit" />
+				</div>
 		</form> 
 	</div>
 {% endif %}

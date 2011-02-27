@@ -4,6 +4,7 @@ from django.db import models, IntegrityError
 from django.contrib.auth.models import User
 from django import forms
 
+
 from polymorphic import PolymorphicModel
 
 from qr import local_settings
@@ -102,8 +103,9 @@ class UserProfile(models.Model):
     firstname = models.CharField(max_length=50, blank=True)
     lastname = models.CharField(max_length=50, blank=True)
     photo = models.ImageField(upload_to='profile_pics', blank=True, null=True)
-    thumbnail = models.ImageField(upload_to='profile_thumb', blank=True, null=True,
-          editable=False)
+    gender = models.CharField(max_length=50, blank=True)
+    birthday = models.DateField(blank=True, null=True) 
+    bio = models.TextField(blank=True)
  
  
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

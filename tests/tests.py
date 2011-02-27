@@ -29,7 +29,7 @@ class TestIndex_Page(TestCase):
         
     def test_registration(self):
         self.response = self.client.post('/registration/', 
-                                         {'UserName': 'test', 'Email': 'test@home', 'Password': 'pass', 'FirstName': 'thing', 'LastName': 'one'})
+                                         {'UserName': 'test', 'Email': 'test@home', 'Password': 'pass', 'FirstName': 'thing', 'LastName': 'one', 'Gender':'Female', 'Bio':'biobio', 'Day':'03', 'Month':'05', 'Year':'1985'})
         self.assertEqual(self.response.status_code, 200);
         
     def test_link_game(self):
@@ -72,7 +72,7 @@ class TestView_user_registration(TestCase):
         
         self.client = Client()
 
-        self.response = self.client.post('/registration/', {'UserName': 'test' , 'Password' : 'testing','FirstName' : 'first', 'LastName' : 'last', 'Email' : 'test@gmail.com'})
+        self.response = self.client.post('/registration/', {'UserName': 'test' , 'Password' : 'testing','FirstName' : 'first', 'LastName' : 'last', 'Email' : 'test@gmail.com', 'Gender':'Female', 'Bio':'biobio', 'Day':'03', 'Month':'05', 'Year':'1985'})
 
         #self.user = self.response.context.User
 
@@ -81,7 +81,7 @@ class TestView_user_registration(TestCase):
         self.assertTemplateUsed(self.response, 'users/registration.html')
         
     def test_context(self):
-        check_context(self, ['UserName', 'FirstName', 'LastName', 'Email'])
+        check_context(self, ['UserName', 'FirstName', 'LastName', 'Email', 'Gender', 'Bio', 'Birthday'])
          
    # def test_correct_data(self):
         #self.assertEqual(self.user.profile.firstname, )
