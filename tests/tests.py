@@ -30,7 +30,7 @@ class TestIndex_Page(TestCase):
     def test_registration(self):
         self.response = self.client.post('/registration/', 
                                          {'UserName': 'test', 'Email': 'test@home', 'Password': 'pass', 'FirstName': 'thing', 'LastName': 'one', 'Gender':'Female', 'Bio':'biobio', 'Day':'03', 'Month':'05', 'Year':'1985'})
-        self.assertEqual(self.response.status_code, 200);
+        self.assertEqual(self.response.status_code, 200)
         
     def test_link_game(self):
         self.response = self.client.post('/game/')
