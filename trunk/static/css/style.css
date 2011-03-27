@@ -157,15 +157,7 @@
 	 	background: #FFFFFF;
 	}
 	
-	.userImage
-	{
-		position: relative;
-		margin: 0 auto;
-		width: 120px;
-		height: 120px;
-		background-image: url(/static/media/unknown_user.gif);
-		background-repeat:no-repeat;
-	}
+
 	
 	.checkProfile
 	{

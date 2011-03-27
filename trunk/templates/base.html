@@ -40,7 +40,7 @@
 		{% if user.is_authenticated %}
 			<div class = "login">
    				Welcome, {{ user }}.<br />
-   				<div class="userImage"></div>
+   				<div class="userPhoto"><img src="/static/{{user.profile.photo}}" alt="User Photo" width="120"/></div>
    				<div class = "checkProfile">Check your profile <a href="/user/{{user.username}}/profile">here</a>!</div><br />
    				<form action="/logout/" method="post">
    					<input class="submit" type="submit" value="Logout">

@@ -7,17 +7,18 @@
 
 		<div class = "profile">
    				Welcome, {{ user }}.<br />
-   				<div class="userPhoto"><img src="{{user.profile.photo}}" alt="User Photo" /></div>
+   				<div class="userPhoto"><img src="/static/{{user.profile.photo}}" alt="User Photo" width="200"/></div>
    				<div class="userDeets">
    				First Name : {{user.profile.firstname}}<br />
    				Last Name : {{user.profile.lastname}}<br />
    				Birthday : {{user.profile.birthday}}<br />
    				Gender : {{user.profile.gender}}<br />
    				Email : {{user.email}}<br />
-   				Biography : {{user.profile.bio}}<br />
-   				
-   				
+   				Biography : {{user.profile.bio}}<br /><br /><br />
    				</div>
+   				If you would like to update your user information please do so <a href="/registration/">here</a>!<br />
+   				Note : You cannot change your username or password through this link.
+   				If you do not confirm changes with correct password, they will not take effect.
    		</div>
 
      {% endblock %}

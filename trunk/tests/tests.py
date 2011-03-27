@@ -72,17 +72,12 @@ class TestView_user_registration(TestCase):
         
         self.client = Client()
 
-        self.response = self.client.post('/registration/', {'UserName': 'test' , 'Password' : 'testing','FirstName' : 'first', 'LastName' : 'last', 'Email' : 'test@gmail.com', 'Gender':'Female', 'Bio':'biobio', 'Day':'03', 'Month':'05', 'Year':'1985'})
+        self.response = self.client.post('/registration/', {'UserName': 'test' , 'Password' : 'testing','FirstName' : 'first', 'LastName' : 'last', 'Email' : 'test@gmail.com', 'Gender':'Female', 'Bio':'biobio', 'Day':'03', 'Month':'05', 'Year':'1985', 'Photo' : '/static/profile_pics/10024AI.jpg'})
 
         #self.user = self.response.context.User
 
     def test_correct_template(self):
         self.assertEqual(self.response.status_code, 200)
         self.assertTemplateUsed(self.response, 'users/registration.html')
-        
-    def test_context(self):
-        check_context(self, ['UserName', 'FirstName', 'LastName', 'Email', 'Gender', 'Bio', 'Birthday'])
-         
-   # def test_correct_data(self):
-        #self.assertEqual(self.user.profile.firstname, )
+
 
