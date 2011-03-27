@@ -107,3 +107,4 @@ if 'test' in sys.argv:
 AUTH_PROFILE_MODULE = 'games.UserProfile'
 
 
+sys.path.append(local_settings.LOCAL_ROOT_DIR + 'qr/imaging')
