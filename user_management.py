@@ -2,6 +2,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import Context, RequestContext
+from django import forms
+from django.forms.extras.widgets import SelectDateWidget
 from forms import UserRegistrationForm
 import datetime
 import Image

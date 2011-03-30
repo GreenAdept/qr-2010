@@ -1,81 +1,44 @@
-
-#contentBox
-{
-		z-index: 1;
-  		display: block; 
-  		top: -360px;
-  		left: 10px;
-  		position: relative; 
-  		overflow: hidden; 
- 		width: 740px; 	
- 		font-family:  Verdana;
- 			
-}
-
-ul
-{
-	left:20px;
-  	position: relative; 
+	h3 {
+		font-size:95%;
+		font-weight:bold;
+		color:#222;
+	}
 	
-}
-li
-{
-	padding: 7px;
-}
-.submit input
-{
-		color: #000;
-		background: #787878;
-		border: 2px outset #000000
-} 
+	input {
+		font-family:"Lucida Grande", Tahoma, Arial, sans-serif;
+		font-size:100%;
+		color:#333;
+	}
 	
-fieldset
-{
-		border: 1px solid #0;
-		width: 715px
-}
-form span.req{
-	display:inline;
-	float:none;
-	color:red !important;
-	font-weight:bold;
-	margin:0;
-	padding:0;
-}
-form ul{
-	margin:0;
-	padding:0;
-	list-style-type:none;
-}	
-form li div label, form li span label{
-	margin:0;
-	padding-top:3px;
-	clear:both;
-	font-size:80%;
-	font-style:italic;
-	line-height:160%;
-	color:#444;
-	display:block;
-}
-label.desc{
-	font-size:95%;
-	font-weight:bold;
-	color:#222;
-	line-height:150%;
-	margin:0;
-	padding:0 0 3px 0;
-	border:none;
-	display:block;
-}
-input
-{
-	font-family:"Lucida Grande", Tahoma, Arial, sans-serif;
-	font-size:100%;
-	color:#333;
-	margin:0;
-	padding:2px 0;
-}
-textarea
-{
-	width: 80%;
-}
+	textarea {
+		width: 100%;
+	}
+	
+	.dualFieldWrapper {
+		width: 50%;
+		float: left;
+		margin: 1em auto;	
+	}
+	
+	select {
+		font-family:"Lucida Grande", Tahoma, Arial, sans-serif;
+		font-size:100%;
+		color:#333;
+	}
+	
+	.registrationForm input {
+		background: #DEE5EC;
+		padding: 0.2em;
+		font-size: 100%;	
+		border-style: solid;
+		border-width: 1px;
+		border-color: #5C6B7A;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-border-radius: 55px;
+	}
+	
+	input[type="file"] {
+		background-color: white;
+		border-style: none;	
+	}
