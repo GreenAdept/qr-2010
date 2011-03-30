@@ -11,38 +11,36 @@ import Image
 
 def registration(request):   
     if request.method == 'POST': # If the form has been submitted...
-        
         form = UserRegistrationForm(request.POST) # A form bound to the POST data
-        
-        if request.user.is_authenticated():
-            if form.is_valid():
+        if form.is_valid():
+            if request.user.is_authenticated():
                 user = User.objects.get(username__exact=request.user.username)
                 if(user.check_password(form.cleaned_data['passw'])):
                     if(form.cleaned_data['year'] != None) and (form.cleaned_data['month'] != None) and (form.cleaned_data['day'] != None):
-                        try:
-                            user.get_profile().birthday = datetime.date(int(form.cleaned_data['year']), int(form.cleaned_data['month']), int(form.cleaned_data['day']))
-                        except:
-                            pass
+                            try:
+                                user.get_profile().birthday = datetime.date(int(form.cleaned_data['year']), int(form.cleaned_data['month']), int(form.cleaned_data['day']))
+                            except:
+                                pass
                     if(form.cleaned_data['bio'] != None): 
-                        user.get_profile().bio = form.cleaned_data['bio']          
+                            user.get_profile().bio = form.cleaned_data['bio']          
                     if 'photo' in request.FILES:
-                        user.get_profile().photo = request.FILES['photo']
-                        im = Image.open(user.get_profile().photo)
+                            user.get_profile().photo = request.FILES['photo']
+                            im = Image.open(user.get_profile().photo)
+                    else:
+                        user.get_profile().photo = 'media/unknown_user.gif'
                     if(form.cleaned_data['gender'] != None): 
-                        user.get_profile().gender = form.cleaned_data['gender']   
+                            user.get_profile().gender = form.cleaned_data['gender']   
                     if(form.cleaned_data['firstname'] != None):
-                        user.get_profile().firstname = form.cleaned_data['firstname']
+                            user.get_profile().firstname = form.cleaned_data['firstname']
                     if(form.cleaned_data['lastname'] != None):
-                        user.get_profile().lastname = form.cleaned_data['lastname']
+                            user.get_profile().lastname = form.cleaned_data['lastname']
                     if(form.cleaned_data['uemail'] != None):
-                        user.email = form.cleaned_data['uemail']
+                            user.email = form.cleaned_data['uemail']
                     user.get_profile().save()
-            context = RequestContext(request)
-            return render_to_response('users/profile.html', context)
+                    context = RequestContext(request)
+                    return render_to_response('users/profile.html', context)
         
-        if not request.user.is_authenticated():
-            if form.is_valid(): # All validation rules pass
-            # Process the data in form.cleaned_data
+            if not request.user.is_authenticated():
                     #First initialize a basic user
                     user = User.objects.create_user(form.cleaned_data['usern'], form.cleaned_data['uemail'], form.cleaned_data['passw'])
                     user = authenticate(username=form.cleaned_data['usern'], password=form.cleaned_data['passw'])
@@ -52,31 +50,22 @@ def registration(request):
                     user.profile.firstname = form.cleaned_data['firstname']
                     user.get_profile().firstname = request.POST['firstname']
                     user.get_profile().lastname = request.POST['lastname']
-                    maxsize = 240
                     
                     if 'photo' in request.FILES:
                         user.get_profile().photo = request.FILES['photo']
                         im = Image.open(user.get_profile().photo)
-                        (width, height) = im.size
-                        imsize = [float(width), float(height)]
-                        print "the image width is", imsize[0]
-                        print "the image height is", imsize[1]
-                        if imsize[0] > imsize[1]:
-                            print "imsize[0] >", imsize[0]
-                            imsize[1] = (imsize[1]/imsize[0])*maxsize
-                            imsize[0] = maxsize
-                        else:
-                            imsize[0] = (imsize[0]/imsize[1])*maxsize
-                            imsize[1] = maxsize
-                            print "imsize[1] >", imsize[0]/imsize[1]
-                            print "the image width is", imsize[0]
-                            print "the image height is", imsize[1]
                     else:
                         user.get_profile().photo = 'media/unknown_user.gif'
                         
                     user.get_profile().gender = form.cleaned_data['gender']
-                    if(form.cleaned_data['year'] != None) and (form.cleaned_data['month'] != None) and (form.cleaned_data['day'] != None):
-                        user.get_profile().birthday = datetime.date(int(form.cleaned_data['year']), int(form.cleaned_data['month']), int(form.cleaned_data['day']))
+                    print form.cleaned_data['year']
+                    print form.cleaned_data['month']
+                    print form.cleaned_data['day']
+                    if((form.cleaned_data['year'] is not '') and (form.cleaned_data['month'] is not '') and (form.cleaned_data['day'] is not '')):
+                            try:
+                                user.get_profile().birthday = datetime.date(int(form.cleaned_data['year']), int(form.cleaned_data['month']), int(form.cleaned_data['day']))
+                            except:
+                                pass
                     user.get_profile().bio = request.POST['bio']
                     user.get_profile().save()
                         
@@ -92,9 +81,15 @@ def registration(request):
                     context['Birthday']= user.get_profile().birthday
                     context['Photo'] = user.get_profile().photo
                     return render_to_response('users/registration.html', context)
+            else:
+                    context = RequestContext(request) 
+                    context['form'] = form 
+        else:
+            context = RequestContext(request) 
+            context['form'] = form 
                 
      # Populate the form if the user is logged in
-    if request.user.is_authenticated():
+    elif request.user.is_authenticated():
         user = request.user
         form = UserRegistrationForm(initial={'usern': user.username,
                                              'firstname':user.get_profile().firstname ,
