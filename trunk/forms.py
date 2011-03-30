@@ -117,7 +117,9 @@ class UserRegistrationForm(forms.Form):
                                                                        ('1952','1952'),
                                                                        ('1951','1951'),
                                                                        ('1950','1950'),]), required = False,)
-        bio = forms.CharField( widget=forms.Textarea)
+
+        bio = forms.CharField( widget=forms.TextInput(attrs={'type':'textarea'}), required = False)
+
 
 
 def clean(self):
