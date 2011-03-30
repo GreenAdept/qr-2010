@@ -9,65 +9,71 @@
 {% if Success %}
 	<p> Thanks, for registering, {{ UserName }}! Click here to continue back to the page you were on.</p>
 {% else %}
-
+<div class="registrationForm">
 <form action="/registration/" enctype="multipart/form-data" method="post">
-<div class="fieldWrapper">
+<fieldset>
+<legend>Registration Form</legend>
+<div class="dualFieldWrapper">
         {{ form.firstname.errors }}
        
-<p><label for="id_firstname">First Name *</label>
+<p><label for="id_firstname"><h3>First Name *</h3></label>
     {{form.firstname}} </p>
 </div>
-<div class="fieldWrapper">
+<div class="dualFieldWrapper">
         {{ form.lastname.errors }}
-<p><label for="id_lastname">Last Name *</label>
+<p><label for="id_lastname"><h3>Last Name *</h3></label>
     {{form.lastname}}</p>
 </div>
 <div class="fieldWrapper">
         {{ form.uemail.errors }}
-<p><label for="id_uemail">Email *</label>
+<p><label for="id_uemail"><h3>Email *</h3></label>
     {{form.uemail}} </p>
 </div>
-<div class="fieldWrapper">
+<div class="dualFieldWrapper">
         {{ form.gender.errors }}
-<p><label for="id_gender">Gender (optional)</label> {{ form.gender }}
+<p><label for="id_gender"><h3>Gender (optional)</h3></label> {{ form.gender }}
     	<!--<select id="id_gender"name="gender" >
 		<option value="">Select</option>
 		<option value="Male">Male</option>
 		<option value="Female">Female</option>
 		</select></p>-->
 </div>
-<div class="fieldWrapper">
+<div class="dualFieldWrapper">
         {{ form.day.errors }}{{ form.month.errors }}{{ form.year.errors }}
-<p><label for="id_day">Birthday (optional)</label> 
+<p><label for="id_day"><h3>Birthday (optional)</h3></label> 
 		{{ form.day }}{{ form.month }}{{ form.year }}
 </div>
 <div class="fieldWrapper">
         {{ form.usern.errors }}
-<p><label for="id_usern">Username *</label>
+<p><label for="id_usern"><h3>Username *</h3></label>
     {{form.usern}}</p> 
 </div>
 {% if user.is_authenticated %}
 	<p> Please confirm any changes by filling out your password and confirming it.</p>
 {% endif %}
-<div class="fieldWrapper">
+<div class="dualFieldWrapper">
         {{ form.passw.errors }}
-<p><label for="id_passw">Password *</label>
+<p><label for="id_passw"><h3>Password *</h3></label>
     {{form.passw}}
-<label for="id_passwr">Re-type Password *</label>
+    </div>
+    <div class="dualFieldWrapper">
+<label for="id_passwr"><h3>Re-type Password *</h3></label>
     {{form.passwr}}</p>
 </div>
 <div class="fieldWrapper">
         {{ form.bio.errors }}
-<p><label for="id_bio">Personal Biography (optional)</label> 
-    {{form.bio}}</textarea></p>
+<p><label for="id_bio"><h3>Personal Biography (optional)</h3></label> 
+    {{form.bio}}</p>
 </div>
 <div class="fieldWrapper">
         {{ form.photo.errors }}
-<label for="id_photo">Photo (optional)</label>
+<label for="id_photo"><h3>Photo (optional)</h3></label>
     {{form.photo}}</p> 
 </div>
-<input type="submit" value="Submit" />
+<div class="fieldWrapper"><input type="submit" value="Submit" /></div>
+</fieldset>
 </form>
+</div>
 
 {% endif %}
 

@@ -1,7 +1,13 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<link rel="stylesheet" type="text/css" href="/static/css/style.css" />
+	<script type="text/javascript" src="/static/scripts/mootools.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+	<script src="/static/scripts/galleria/galleria-1.2.2.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="/static/css/base.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/rightNavBar.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/topNavBar.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/content.css" />
 	{% block styleSheet %}
 	{% endblock %}
 
@@ -15,76 +21,90 @@
 <body>
 {% endblock %}
 	
-	<div id="main" >
-		<div id="mainBanner">
+	<div id="header" >
+		<div class="mainBanner">
 		</div>
 	
-		<div id="topNavBar">
-		{% block topNavBar %}
-        <div class="topNaviagationLink"><a href= "/contact">Contact</a></div>
-        <div class="topNaviagationLink"><a href="/">About</a></div>
-        <div class="topNaviagationLink"><a href="/game">Play</a></div>
-	    <div class="topNaviagationLink"><a href="/">Home</a></div>
-	    {% endblock %}
+		<div class="topNavBar">
+			{% block topNavBar %}
+			<ul>
+			<li><a href= "/contact">Contact</a></li>
+			<li><a href="/">About</a></li>
+			<li><a href="/game">Play</a></li>
+			<li><a href="/">Home</a></li>
+			</ul>
+			{% endblock topNavBar %}
 		</div>
-	
-	
-		<div id="sideNavBar">
-		<div class = "box"></div>
-		<div class = "stats">
-		Games in Progress: {{num_games}} <br>
-		Users Online:<br>
-		</div>
-		
-		{% block sideNavBar %}
-		{% if user.is_authenticated %}
-			<div class = "login">
-   				Welcome, {{ user }}.<br />
-   				<div class="userPhoto"><img src="/static/{{user.profile.photo}}" alt="User Photo" width="120"/></div>
-   				<div class = "checkProfile">Check your profile <a href="/user/{{user.username}}/profile">here</a>!</div><br />
-   				<form action="/logout/" method="post">
-   					<input class="submit" type="submit" value="Logout">
-   				</form>
-   			</div>
-		
-		{% else %}
-		
-         <div class = "login">
-			 <div class = "text"> Login </div>
-			   <div class="loginwrapper">
-			   <form action="/login/" method="post">
-			      <input type="hidden" name="next" value="{{ next }}" />
-			      <input type="hidden" name="path" value="{{ request.path }}" />
-					<span class="usertext" style="font: 16px Impact;" >UserName:</span><br>
-					<input class="textbox" name="UserName" type="text" size="25"><br>
-					<span class="usertext" style="font: 16px Impact;">Password:</span><br>
-					<input class="textbox" name="Password" type="password" size="25">
-					<input class="submit" type ="submit" value="Login">
-				</form>
-				</div>
-			
-			<div class = "createUser">Don't have a login? Create a new user <a href="/registration">here</a>!</div>
+	</div>
 
+	<div class="colmask threecol">
+	<div class="colmid">
+		<div class="colleft">
+			<div class="content">
+			<div class="gallery-container">
+			<div id="gallery">
+            	<img src="/static/media/img1.jpg">
+            	<img src="/static/media/img2.jpg">
+            	<img src="/static/media/img3.jpg">
+        		</div>
+        		</div>
+		<script>
+            Galleria.loadTheme('/static/scripts/galleria/themes/classic/galleria.classic.js');
+            $("#gallery").galleria({
+                width: 500,
+                height: 300
+            });
+			</script>
+			<div class="contentPane">
+				{% block content %}
+				
+	      	{% endblock content %}
+	      </div>
 			</div>
+			<div class="leftNavBar">
+			</div>
+			<div class="rightNavBar">
+				<div class="stats">
+					Games in Progress: {{num_games}} <br>
+					Users Online:<br>
+				</div>
 
-		{% endif %}
+				{% block rightNavBar %}
+				{% if user.is_authenticated %}
+
+				<div class = "login">
+	   				Welcome, {{ user }}.<br />
+	   				<div class="userImage"></div><br />
+					Check your profile <a href="/user/{{user.username}}/profile">here</a>!<br />
+	   				<form action="/logout/" method="post">
+	   					<input class="submit" type="submit" value="Logout">
+	   				</form>
+	   			</div>
+
+				{% else %}
 		
-		<div class="socialnetwork">
-		<iframe src="http://www.facebook.com/plugins/like.php?href=http://qr.blue-mage.net/&amp;layout=button_count&amp;show_faces=false&amp;width=200&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:200px; height:21px;" allowTransparency="true"></iframe>
-		<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
-		</div> 
+			 	<div class ="login">
+					 <h1> Login </h1>
+						<form action="/login/" method="post">
+							<input type="hidden" name="next" value="{{ next }}" />
+							<input type="hidden" name="path" value="{{ request.path }}" />
+								<h2>User Name:</h2>
+								<input class="textbox" name="UserName" type="text" size="25"><br />
+								<h2>Password</h2>
+								<input class="textbox" name="Password" type="password" size="25"><br />
+								<input class="submit" type ="submit" value="Login">
+						</form><br />
+			
+						Don't have a login?<br /> Create a new user <a href="/registration">here</a>!
 
-		{% endblock %}
-		</div>
-	
-    
-		<div id="contentBox">
-		{% block content %}
-
-      	{% endblock %}
-		</div>    
-  
-
+				</div>
+				<div class="socialnetworking">
+					<iframe src="http://www.facebook.com/plugins/like.php?href=http://qr.blue-mage.net/&amp;layout=button_count&amp;show_faces=false&amp;&amp;action=like&amp;colorscheme=light&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:21px;" allowTransparency="true"></iframe>
+					<a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+				</div> 
+				{% endif %}
+				{% endblock rightNavBar%}
+			</div>
 	</div>
     
 </body>

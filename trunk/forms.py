@@ -8,7 +8,7 @@ class UserRegistrationForm(forms.Form):
         uemail = forms.EmailField(required = True)
         firstname = forms.CharField(max_length=50, required = True)
         lastname = forms.CharField(max_length=50, required = True)
-        photo = forms.ImageField(required=False)
+        photo = forms.ImageField(required=False,widget = forms.FileInput(attrs={'class':'fileChooser'}))
         gender = forms.ChoiceField(widget = forms.Select(), choices = ([('','Select'), ('Male','Male'), ('Female','Female'), ]), required = False,)
         day = forms.ChoiceField(widget = forms.Select(), choices = ([('','Day'),
                                           ('1','1'),
@@ -117,7 +117,7 @@ class UserRegistrationForm(forms.Form):
                                                                        ('1952','1952'),
                                                                        ('1951','1951'),
                                                                        ('1950','1950'),]), required = False,)
-        bio = forms.CharField( widget=forms.TextInput(attrs={'type':'textarea'}))
+        bio = forms.CharField( widget=forms.Textarea)
 
 
 def clean(self):
