@@ -1,0 +1,48 @@
+	.stats {
+		font: 18px Impact, serif;
+		display: block; 
+		margin: 10px;
+		padding: 10px;
+		position: relative; 
+		overflow: hidden; 
+		height: 50px;
+		background: white;
+	}
+
+	.login {
+		position: relative;
+		height: 300px;
+		padding-left: 20px;
+		background: white;
+	}
+
+	.login h1 {
+		position: relative;
+		top: 10px;
+		left: 10px;
+		font: 26px Impact, serif;
+	}
+
+	.login h2 {
+		position: relative;
+		top: 10px;
+		left: 10px;
+		font: 16px Impact, serif;
+	}
+
+	.socialnetworking {
+		padding: 10px;
+	}
+	
+	.login a:link,a:visited {
+		color: blue;
+		text-decoration: underline;
+	}
+	
+	.login button {
+			
+	}
+	
+	.login input{
+		
+	}

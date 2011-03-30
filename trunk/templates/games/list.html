@@ -1,19 +1,40 @@
 {% extends "base.html" %}
 
+{% block styleSheet %}
+<link rel="stylesheet" type="text/css" href="/static/css/game_list.css" />
+{% endblock %}
+
 {% block content %}
    {% if game_list %}
-      <ul>
+   <div class="gameList">
+      <table border="0">
+      <tr>
+      <th>Name</th>
+      <th>Created</th>
+      <th>City</th>
+      <th>Creator</th>
+      </tr>
       {% for game in game_list %}
-         <li>
-            <p>
-            <a href="/game/{{game.id}}/">{{game.created}} -- {{game.city}}</a>
-            {% ifequal user game.created_by %}
-                -- <a href="/game/{{game.id}}/edit/">Edit game</a>
+         <tr {% if forloop.counter|divisibleby:2 %}class="even"{% else %}class="odd"{% endif %}>
+         	{% ifequal game.name "" %}
+         	<td><a href="/game/{{game.id}}/">Unnamed</a></td>
+         	{% else %}
+         	<td>{{game.name}}</td>
+         	{% endifequal %}
+            <td>{{game.created}}</td>
+            {% ifequal game.city "" %}
+            <td>No Location</td>
             {% endifequal %}
-            </p>
-         </li>
+            <td>{{game.city}}</td></a>
+            {% ifequal user game.created_by %}
+                <td><a href="/game/{{game.id}}/edit/">Edit game</a></td>
+            {% else %}
+            	<td><a href="/user/{{game.created_by}}/profile">{{game.created_by}}</a></td>
+            {% endifequal %}
+         </tr>
       {% endfor %}
-      </ul>
+      </table>
+      </div>
    {% else %}
       <p>No games created yet</p>
    {% endif %}

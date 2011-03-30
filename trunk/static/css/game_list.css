@@ -1,0 +1,36 @@
+	table {
+		width: 100%;
+	}
+	
+	td {
+		text-align: center;	
+	}
+	
+	th {
+		background-color: #5A5A5A;
+		font-size: 125%;
+	}
+	
+	tr {
+		height: 2em;
+	}
+	
+	.gameList a {
+		text-decoration: none;
+	}
+	
+	.odd {
+		background-color: #D9D3F2;	
+	}
+	
+	.even {
+		background-color: #E3E1F0;	
+	}
+	
+	tr:hover {
+		background-color: #D0C9ED;	
+	}
+	
+	th:hover {
+			background-color: #5A5A5A;
+	}

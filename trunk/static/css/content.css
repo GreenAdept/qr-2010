@@ -1,0 +1,8 @@
+	.contentPane {
+		width: 90%;
+		margin: 2em auto;
+	}
+	
+	.contentPane a {
+		color: blue;	
+	}

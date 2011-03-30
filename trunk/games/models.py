@@ -26,6 +26,7 @@ class Game(PolymorphicModel):
     created_by = models.ForeignKey(User)
     created = models.DateTimeField(default='2010-01-01')
     template_directory = models.FilePathField(path=GAME_TEMPLATE_DIR, recursive=True, blank=True,)
+    name = models.CharField(max_length=40, blank=True)
     
     class Meta:
         db_table = 'game'

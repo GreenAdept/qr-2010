@@ -1,0 +1,111 @@
+
+	body {
+		padding: 0;
+		margin: 0;
+		font-family: sans-serif;
+	}
+
+	#header
+	{
+ 		background: white;		
+	}
+	
+	.mainBanner
+	{
+  		height: 100px;
+		background-image: url(/static/media/banner.jpg);
+ 		background-repeat:no-repeat;
+	}
+
+	.colmask {
+		position:relative;	/* This fixes the IE7 overflow hidden bug */
+		clear:both;
+		float:left;
+		width:100%;			/* width of whole page */
+		overflow:hidden;		/* This chops off any overhanging divs */
+	}
+	
+	.colright,
+	.colmid,
+	.colleft {
+		float:left;
+		width:100%;			/* width of page */
+		position:relative;
+	}
+
+	.leftNavBar,
+	.content,
+	.rightNavBar {
+	float:left;
+	position:relative;
+	padding:0 0 1em 0;	/* no left and right padding on columns, we just make them narrower instead 
+					only padding top and bottom is included here, make it whatever value you need */
+	overflow:hidden;
+}
+
+	/* 3 Column settings */
+	.threecol {
+		background: #D4D4DE;		/* right column background colour */
+	}
+	.threecol .colmid {
+		right:20%;			/* width of the right column */
+		min-width: 200px;
+		background: white;		/* center column background colour */
+	}
+	.threecol .colleft {
+		right:60%;			/* width of the middle column */
+		background: #D4D4DE;	/* left column background colour */
+	}
+	.threecol .leftNavBar {
+		height: 300px;
+		width: 18%;			/* Width of left column content (column width minus padding on either side) */
+		left:21%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
+		background: white;
+		top: 10px;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		-border-radius: 15px;
+		-moz-box-shadow: 3px 3px 4px #000;
+		-webkit-box-shadow: 3px 3px 4px #000;
+		box-shadow: 3px 3px 4px #000;
+
+	}
+	.threecol .content {
+		min-width: 500px;
+		width:60%;			/* width of center column content (column width minus padding on either side) */
+		left:100%;			/* 100% plus left padding of center column */
+	}	
+	
+	.threecol .rightNavBar {
+		background: white;	
+		min-width: 200px;
+		width:18%;			/* Width of right column content (column width minus padding on either side) */
+		left:83%;			/* Please make note of the brackets here:
+						(100% - left column width) plus (center column left and right padding) plus (left column left and right padding) plus (right column left padding) */
+		display: block; 
+  		top: 10px;
+		float: left;
+  		position: relative; 
+  		overflow: hidden; 
+  		outline-style: none;
+		-webkit-border-radius: 15px;
+		-moz-border-radius: 15px;
+		-border-radius: 15px;
+		-moz-box-shadow: 3px 3px 4px #000;
+		-webkit-box-shadow: 3px 3px 4px #000;
+		box-shadow: 3px 3px 4px #000;
+	}
+	
+	.gallery-container {	
+		width: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		background-color: black;
+	}
+	
+	#gallery {
+		width: 500px;	
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
