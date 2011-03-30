@@ -1,0 +1,47 @@
+	.topNavBar
+	{
+		margin: 0px;
+  		display: block; 
+  		height: 40px;
+  		width: 100%;
+  		position: relative; 
+  		float: left;
+  		overflow: hidden; 
+		background-color: black;
+	}
+	
+	.topNavBar ul {
+		float: right;
+		height: 100%;
+		width: 100%;
+		margin: 0;
+		padding: 0;	
+	}
+	
+	.topNavBar ul li {
+		display: inline;
+		float: right;
+		list-style: none;
+		font: 30px Impact, sans-serif;
+		letter-spacing: 2px;
+	}
+
+	.topNavBar li a {
+		padding-right: 1em;
+		padding-left: 1em;
+		color: white;	
+	}
+
+	.topNavBar li a:link,a:visited
+	{
+		color: white;
+		text-decoration: none;
+	}
+
+	.topNavBar li a:hover,a:active
+	{
+		text-align: center;
+		background-color: #A0A0A0;
+		color: black;
+		display: inline;
+	}

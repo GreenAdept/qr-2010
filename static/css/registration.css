@@ -1,0 +1,44 @@
+	h3 {
+		font-size:95%;
+		font-weight:bold;
+		color:#222;
+	}
+	
+	input {
+		font-family:"Lucida Grande", Tahoma, Arial, sans-serif;
+		font-size:100%;
+		color:#333;
+	}
+	
+	textarea {
+		width: 100%;
+	}
+	
+	.dualFieldWrapper {
+		width: 50%;
+		float: left;
+		margin: 1em auto;	
+	}
+	
+	select {
+		font-family:"Lucida Grande", Tahoma, Arial, sans-serif;
+		font-size:100%;
+		color:#333;
+	}
+	
+	.registrationForm input {
+		background: #DEE5EC;
+		padding: 0.2em;
+		font-size: 100%;	
+		border-style: solid;
+		border-width: 1px;
+		border-color: #5C6B7A;
+		-webkit-border-radius: 5px;
+		-moz-border-radius: 5px;
+		-border-radius: 55px;
+	}
+	
+	input[type="file"] {
+		background-color: white;
+		border-style: none;	
+	}
