@@ -22,3 +22,8 @@ def locations_to_points(locations):
                        str(loc.latitude),
                        str(loc.longitude), text))
     return points
+
+def is_mobile_app(request):
+    return (request.META.has_key('HTTP_USER_AGENT')
+            and request.META['HTTP_USER_AGENT'] == 'qrdroid')
+
