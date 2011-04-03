@@ -68,6 +68,18 @@ def process(player, location):
     return game_data
 
 def qrcode(game, location):
-    # TODO: Doug: this should return the clue for the
-    # location AFTER the given location
-    return ''
+    try:
+        loc_order = utils.csv_to_list(game.ordered_locations)
+        loc_index = loc_order.index(location.id)
+    except ValueError:
+        return ''
+    
+    next_index = loc_index + 1
+    clue = ''
+    if next_index >= len(loc_order):
+        clue = 'You have reaced the final location! Congratulations!'
+    else:
+        next_loc = Location.objects.filter(id=loc_order[next_index])[0]
+        clue = 'Clue to next location: %s' % next_loc.clue
+    
+    return '%s\nURL for this location:\n' % clue

@@ -19,10 +19,25 @@ from thirdparty.pygooglechart import QRChart
 def game_list(request):
     games = Game.objects.all()
     
-    context = RequestContext(request)
-    context['game_list'] = games
-    return render_to_response('games/list.html', context)
+    if utils.is_mobile_app(request):
+        game_list = []
+        for game in games:
+            game_list.append(
+                {'game_type' : str(game.game_type),
+                 'is_public' : bool(game.is_public),
+                 'city' : str(game.city),
+                 'center_lat' : float(game.center_latitude),
+                 'center_lon' : float(game.center_longitude),
+                 'created_by' : str(game.created_by.username),
+                 'created_date' : str(game.created)
+                })
+        return HttpResponse(simplejson.dumps({'games':game_list}))
+    else:
+        context = RequestContext(request)
+        context['game_list'] = games
+        return render_to_response('games/list.html', context)
 
+@login_required
 def game_details(request, game_id):
     
     # get the game & its players
@@ -92,6 +107,7 @@ def game_create(request):
                 # note: this case shouldn't occur in normal use
                 raise PermissionDenied('unable to create generic game')
             
+            game.name = data['name']
             game.is_public = data['is_public']
             game.city = data['city']
             game.center_latitude = str(center_loc['lat'])

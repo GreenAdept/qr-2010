@@ -50,7 +50,7 @@ class Player(PolymorphicModel):
 class PartialGameForm(forms.ModelForm):
     class Meta:
         model = Game
-        fields = ('game_type', 'is_public', 'city')
+        fields = ('name', 'game_type', 'is_public', 'city')
 
 class TreasureHuntGame(Game):
     ordered_locations = models.CommaSeparatedIntegerField(max_length=200)
