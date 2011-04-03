@@ -1,9 +1,9 @@
 <p>
 {% if players %}
    <table>
-      <tr><td>Player</td><td>Date Joined</td><td>Highest Location Visited</td></tr>
+      <tr><td>Player</td><!--<td>Date Joined</td>--><td>Highest Location Visited</td></tr>
       {% for player in players %}
-      <tr><td>{{ player.user }}</td><td>???</td><td>{{ player.highest_visited.id }}</td></tr>
+      <tr><td>{{ player.user }}</td><!--<td>???</td>--><td>{{ player.highest_visited.id }}</td></tr>
       {% endfor %}
    </table>
    

@@ -19,7 +19,7 @@
          	{% ifequal game.name "" %}
          	<td><a href="/game/{{game.id}}/">Unnamed</a></td>
          	{% else %}
-         	<td>{{game.name}}</td>
+         	<td><a href="/game/{{game.id}}/">{{game.name}}</a></td>
          	{% endifequal %}
             <td>{{game.created}}</td>
             {% ifequal game.city "" %}
