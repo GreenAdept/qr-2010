@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from django.core.urlresolvers import reverse
-from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden, Http404, HttpRequest
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils import simplejson
@@ -14,6 +14,8 @@ from qr.games.gmap import Map
 from qr.games.models import *
 from qr.games import utils, game_TH
 from qr.views import page_info
+from thirdparty import pygeoip
+from local_settings import LOCAL_ROOT_DIR 
 
 from thirdparty.pygooglechart import QRChart
 
@@ -127,8 +129,18 @@ def game_create(request):
         form = PartialGameForm()
 
     gmap = Map('gmap', [(0,0,0,'')])
-    gmap.center = (0,0)
-    gmap.zoom = '3'
+    gi = pygeoip.GeoIP(LOCAL_ROOT_DIR + 'qr/static/GeoLiteCity.dat')
+    client_address = request.META['REMOTE_ADDR'] 
+    user_location = gi.record_by_addr(client_address)
+    if client_address == '127.0.0.1':
+    	latitude = '51.08'
+    	longitude = '-114.08'
+    else:
+  		latitude = user_location['latitude']
+  		longitude = user_location['longitude']
+    	
+    gmap.center = (latitude,longitude)
+    gmap.zoom = '5'
     
     context = RequestContext(request)
     context['form'] = form
