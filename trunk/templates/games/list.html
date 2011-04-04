@@ -16,6 +16,7 @@
       </tr>
       {% for game in game_list %}
          <tr {% if forloop.counter|divisibleby:2 %}class="even"{% else %}class="odd"{% endif %}>
+         {% if game.is_public %}
          	{% ifequal game.name "" %}
          	<td><a href="/game/{{game.id}}/">Unnamed</a></td>
          	{% else %}
@@ -31,6 +32,7 @@
             {% else %}
             	<td><a href="/user/{{game.created_by}}/profile">{{game.created_by}}</a></td>
             {% endifequal %}
+           {% endif %}
          </tr>
       {% endfor %}
       </table>
