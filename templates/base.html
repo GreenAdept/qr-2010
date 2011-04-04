@@ -3,6 +3,7 @@
 <head>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="/static/scripts/galleria/galleria-1.2.2.min.js"></script>
+	<script src="/static/scripts/images.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/base.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/topNavBar.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/leftNavBar.css" />
@@ -42,17 +43,19 @@
 		<div class="colleft">
 			<div class="content">
 			<div class="gallery-container">
-			<div id="gallery">
-            	<img src="/static/media/img1.jpg">
-            	<img src="/static/media/img2.jpg">
-            	<img src="/static/media/img3.jpg">
+				<div id="gallery">
         		</div>
-        		</div>
+        	</div>
 		<script>
             Galleria.loadTheme('/static/scripts/galleria/themes/classic/galleria.classic.js');
             $("#gallery").galleria({
                 width: 500,
-                height: 300
+                height: 300,
+                autoplay: 3000,
+                carousel: true,
+                crop: true,
+                transitionSpeed: 700,
+                data_source: data
             });
 			</script>
 			<div class="contentPane">
