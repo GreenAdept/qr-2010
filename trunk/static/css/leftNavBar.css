@@ -1,0 +1,29 @@
+	.activityStream {
+		padding: 5px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.activityStream ul {
+		margin: 0px;
+		padding: 5px;
+	}
+	
+	.activityStream li {
+		list-style: none;
+		padding: 0px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	
+	.even {
+		background-color: #D9D3F2;	
+	}
+	
+	.odd {
+		background-color: #E3E1F0;
+	}
+	
+	.activityStream a {
+		text-decoration: none;	
+	}
