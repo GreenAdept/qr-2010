@@ -4,8 +4,9 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
 	<script src="/static/scripts/galleria/galleria-1.2.2.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="/static/css/base.css" />
-	<link rel="stylesheet" type="text/css" href="/static/css/rightNavBar.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/topNavBar.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/leftNavBar.css" />
+	<link rel="stylesheet" type="text/css" href="/static/css/rightNavBar.css" />
 	<link rel="stylesheet" type="text/css" href="/static/css/content.css" />
 	{% block styleSheet %}
 	{% endblock %}
@@ -61,11 +62,19 @@
 	      </div>
 			</div>
 			<div class="leftNavBar">
+				<div class="activityStream"><ul>
+				{% for item in activity_stream %}
+				<li {% if forloop.counter|divisibleby:2 %}class="even"{% else %}class="odd"{% endif %}>
+				<a href="/user/{{item.actor}}/profile">{{item.actor}}</a> {{item.verb}} <a href="/game/{{item.target_id}}/"> Game {{item.target_id}}</a>
+				</li> 
+				{% endfor %}
+				</ul>
+				</div>
 			</div>
 			<div class="rightNavBar">
 				<div class="stats">
 					Games in Progress: {{num_games}} <br>
-					Users Online:<br>
+					Users Online: {{num_users}}<br>
 				</div>
 
 				{% block rightNavBar %}

@@ -57,7 +57,7 @@
 		background: #D4D4DE;	/* left column background colour */
 	}
 	.threecol .leftNavBar {
-		height: 300px;
+		min-height: 200px;
 		width: 18%;			/* Width of left column content (column width minus padding on either side) */
 		left:21%;			/* width of (right column) plus (center column left and right padding) plus (left column left padding) */
 		background: white;

@@ -13,6 +13,7 @@ from django.utils import simplejson
 from qr.games.gmap import Map
 from qr.games.models import *
 from qr.games import utils, game_TH
+from qr.views import page_info
 
 from thirdparty.pygooglechart import QRChart
 
@@ -35,6 +36,7 @@ def game_list(request):
     else:
         context = RequestContext(request)
         context['game_list'] = games
+        context = page_info(context)
         return render_to_response('games/list.html', context)
 
 @login_required
@@ -90,6 +92,7 @@ def game_details(request, game_id):
     context['players'] = players
     context['can_join_game'] = can_join_game
     context['game_data'] = game_data
+    context = page_info(context)
     return render_to_response('games/details.html', context)
 
 @login_required
@@ -115,7 +118,9 @@ def game_create(request):
             game.created_by = request.user
             game.created = datetime.now()
             game.save()
-            
+            a = ActivityStreamItem(actor=request.user,verb="created a new game",target=game,occurred=datetime.now())
+            a.save()
+            context = page_info(context)
             return HttpResponseRedirect(reverse('game_edit', args=(game.id,)))
 
     else:
@@ -128,6 +133,7 @@ def game_create(request):
     context = RequestContext(request)
     context['form'] = form
     context['gmap_js'] = gmap.to_js()
+    context = page_info(context)
     return render_to_response('games/create.html', context)
 
 @login_required
@@ -197,6 +203,9 @@ def game_edit(request, game_id):
     context['error_msgs'] = error_msgs
     context['game'] = game
     context['locations'] = locations
+    a = ActivityStreamItem(actor=request.user,verb="has modified ",target=game,occurred=datetime.now())
+    a.save()   
+    context = page_info(context)
     return render_to_response('games/edit.html', context)
 
 @login_required
@@ -225,6 +234,9 @@ def game_process_code(request, uuid):
     context['game_data'] = game_data
     context['game'] = location.gameID
     context['location'] = location
+    a = ActivityStreamItem(actor=request.user,verb="has progressed in ",target=game,occurred=datetime.now())
+    a.save()
+    context = page_info(context)
     return render_to_response('games/process_code.html', context)
 
 def game_qrcodes(request, game_id):
@@ -262,4 +274,5 @@ def game_qrcodes(request, game_id):
     
     context = RequestContext(request)
     context['locationQRurls'] = locationQRurls
+    context = page_info(context)
     return render_to_response('games/qrcodes.html', context)

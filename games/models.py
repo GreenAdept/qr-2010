@@ -63,6 +63,15 @@ class TreasureHuntGame(Game):
             raise IntegrityError('TH game_type must always be TH')
         super(TreasureHuntGame, self).save(*args, **kwargs)
 
+class ActivityStreamItem(models.Model):
+	actor = models.ForeignKey(User)
+	verb = models.CharField(max_length=50,blank=False)
+	target = models.ForeignKey(Game)
+	occurred = models.DateTimeField(default='2010-01-01')
+	
+	class Meta:
+		get_latest_by = "occurred"
+	
 class TreasureHuntPlayer(Player):
     highest_visited = models.ForeignKey(Location, related_name='hunt_player', null=True)
     
