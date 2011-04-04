@@ -34,6 +34,12 @@
 		padding: 10px;
 	}
 	
+	.rightNavBar a:link { 
+
+		color: blue;
+		text-decoration: underline;
+	}
+	
 	.socialnetworking {
 		padding: 10px;
 	}
