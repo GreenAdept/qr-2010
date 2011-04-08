@@ -122,14 +122,13 @@ def game_create(request):
             game.save()
             a = ActivityStreamItem(actor=request.user,verb="created a new game",target=game,occurred=datetime.now())
             a.save()
-            context = page_info(context)
             return HttpResponseRedirect(reverse('game_edit', args=(game.id,)))
 
     else:
         form = PartialGameForm()
 
     gmap = Map('gmap', [(0,0,0,'')])
-    gi = pygeoip.GeoIP(LOCAL_ROOT_DIR + 'qr/static/GeoLiteCity.dat')
+    gi = pygeoip.GeoIP(LOCAL_ROOT_DIR + 'qr\\static\\GeoLiteCity.dat')
     client_address = request.META['REMOTE_ADDR'] 
     user_location = gi.record_by_addr(client_address)
     if client_address == '127.0.0.1':
