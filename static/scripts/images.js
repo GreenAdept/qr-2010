@@ -5,6 +5,24 @@ var data = [
         description: 'Another caption',
         link: '/static/media/index1.jpg'
     },
+	{
+        image: '/static/media/index2.jpg',
+        title: 'my second image',
+        description: 'Another caption',
+        link: '/static/media/index2.jpg'
+    },
+	{
+        image: '/static/media/index3.jpg',
+        title: 'my second image',
+        description: 'Another caption',
+        link: '/static/media/index3.jpg'
+    },
+	{
+        image: '/static/media/index4.jpg',
+        title: 'my second image',
+        description: 'Another caption',
+        link: '/static/media/index4.jpg'
+    },
     {
         image: '/static/media/img1.jpg',
         title: 'my first image',
