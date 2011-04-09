@@ -16,7 +16,7 @@ def create_games(testcase):
         { 'type':'TH', 'pub':True, 'city':'UofC',
             'center':(52, -114), 'user':1,
             'locs':[ (51.079, -114.13), (51.0789, -114.01), (51.33, -114.44) ] },
-        { 'type':'TH', 'pub':True, 'city':'UofC',
+        { 'type':'TH', 'pub':True, 'city':'UofC ENGG',
             'center':(52, -114), 'user':1,
             'locs':[ (51.079, -114.13), (51.0789, -114.01), (51.33, -114.44) ] },
     ]

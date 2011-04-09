@@ -25,18 +25,19 @@
             <td>{{game.created}}</td>
             {% ifequal game.city "" %}
             <td>No Location</td>
-            {% endifequal %}
+            {% else %}
             <td>{{game.city}}</td></a>
+            {% endifequal %}
             {% ifequal user game.created_by %}
                 <td><a href="/game/{{game.id}}/edit/">Edit game</a></td>
             {% else %}
             	<td><a href="/user/{{game.created_by}}/profile">{{game.created_by}}</a></td>
             {% endifequal %}
-           {% endif %}
+         {% endif %}
          </tr>
       {% endfor %}
       </table>
-      </div>
+   </div>
    {% else %}
       <p>No games created yet</p>
    {% endif %}
