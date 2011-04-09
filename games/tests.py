@@ -37,7 +37,8 @@ class TestView_game_list(TestCase):
     
     def test_all_games_listed(self):
         for game in Game.objects.all():
-            self.assertContains(self.response, game.city)
+            if game.game_type in ['TH']:
+                self.assertContains(self.response, game.city)
 
     def test_anon_user_gets_no_edit_links(self):
         for game in Game.objects.all():

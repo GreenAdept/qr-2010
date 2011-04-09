@@ -245,7 +245,10 @@ def game_process_code(request, uuid):
     context['game_data'] = game_data
     context['game'] = location.gameID
     context['location'] = location
-    a = ActivityStreamItem(actor=request.user,verb="has progressed in ",target=game,occurred=datetime.now())
+    a = ActivityStreamItem(actor=request.user,
+                           verb="has progressed in ",
+                           target=location.gameID,
+                           occurred=datetime.now())
     a.save()
     context = page_info(context)
     return render_to_response('games/process_code.html', context)
