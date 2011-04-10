@@ -10,7 +10,7 @@
 <div id="gmap_points">
    {% for location in locations %}
       <div id="gmap_point_{{ location.id }}">
-         ID: {{ location.id }} <br />
+         ID: {{ location.id }} 
          Clue: <input type="text" name="clue_{{ location.id }}" value="{{ location.clue }}" />
       </div>
    {% endfor %}
