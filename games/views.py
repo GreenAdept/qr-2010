@@ -127,7 +127,6 @@ def game_create(request):
     else:
         form = PartialGameForm()
 
-    gmap = Map('gmap', [(0,0,0,'')])
     gi = pygeoip.GeoIP(LOCAL_ROOT_DIR + 'qr\\static\\GeoLiteCity.dat')
     client_address = request.META['REMOTE_ADDR'] 
     user_location = gi.record_by_addr(client_address)
@@ -137,7 +136,8 @@ def game_create(request):
     else:
   		latitude = user_location['latitude']
   		longitude = user_location['longitude']
-    	
+    
+    gmap = Map('gmap', [(0,latitude,longitude,'')])
     gmap.center = (latitude,longitude)
     gmap.zoom = '5'
     
@@ -157,7 +157,7 @@ def game_edit(request, game_id):
     if request.user != game.created_by:
         return HttpResponseForbidden('Cannot access: not game creator')
     
-    locations = game.location_set.all()
+    locations = game.location_set.all().order_by('id')
     
     error_msgs = []
     if request.method == 'POST':
@@ -196,7 +196,7 @@ def game_edit(request, game_id):
             new_loc.save()
             
             # re-load the locations to grab the new point
-            locations = game.location_set.all()
+            locations = game.location_set.all().order_by('id')
     
     # if this is a game with an ordering to the points,
     # grab that order for the map to connect the points
@@ -262,7 +262,7 @@ def game_qrcodes(request, game_id):
         return HttpResponseForbidden('Cannot access: not game creator')
     
     # get locations and clues
-    locations = game.location_set.all()
+    locations = game.location_set.all().order_by('id')
     
     locationQRurls = []
     
